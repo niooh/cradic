@@ -12,7 +12,9 @@
   "scripts": {
     "build": "rollup -c",
     "build:browser": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "test": "node tests/test.mjs",
+    "demo": "node tests/demo.mjs"
   },
   "devDependencies": {
     "@rollup/plugin-json": "^6.1.0",
