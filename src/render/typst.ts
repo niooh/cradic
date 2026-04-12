@@ -1,8 +1,8 @@
-import { DEFAULT_PARAMS } from '../constants';
+import { TYPST_PARAMS } from '../constants';
 import { getSplitMap, mergeParams } from '../utils';
 
 export function renderTypst(text: string, params?: Record<string, any>): string {
-  const p = mergeParams(DEFAULT_PARAMS, params);
+  const p = mergeParams(TYPST_PARAMS, params);
   const { hSplitMap, vSplitMap } = getSplitMap();
 
   const hMapStr = JSON.stringify(hSplitMap)
@@ -15,13 +15,15 @@ export function renderTypst(text: string, params?: Record<string, any>): string 
   return `#set page(width: auto, height: auto, margin: 1cm)
 
 #let params = (
-  box-size: ${p.boxHeight}pt,
+  box-size: ${p.boxSize}pt,
   cols: ${p.cols},
-  box-gap: ${p.boxGapH}pt,
-  font-size: ${p.boxHeight * p.partScale}pt,
-  h-scale: ${(p.hLeftScaleX * 100).toFixed(0)}%,
-  v-scale: ${(p.vTopScaleY * 100).toFixed(0)}%,
-  stroke: 0.5pt + gray,
+  box-gap: ${p.boxGap}pt,
+  font-size: ${p.fontSize}pt,
+  h-scale: ${(p.hScale * 100).toFixed(0)}%,
+  v-scale: ${(p.vScale * 100).toFixed(0)}%,
+  h-tightness: ${p.hTightness}pt,
+  v-tightness: ${p.vTightness}pt,
+  stroke: ${p.stroke},
 )
 
 #let h-split-map = ${hMapStr}
@@ -38,10 +40,10 @@ export function renderTypst(text: string, params?: Record<string, any>): string 
       set text(size: params.font-size, font: "SimSun")
       if char in h-split-map {
         let (left, right) = h-split-map.at(char)
-        stack(dir: ltr, spacing: -2pt, scale(x: params.h-scale, reflow: true, left), scale(x: params.h-scale, reflow: true, right))
+        stack(dir: ltr, spacing: params.h-tightness, scale(x: params.h-scale, reflow: true, left), scale(x: params.h-scale, reflow: true, right))
       } else if char in v-split-map {
         let (top, bottom) = v-split-map.at(char)
-        stack(dir: ttb, spacing: -2pt, scale(y: params.v-scale, reflow: true, top), scale(y: params.v-scale, reflow: true, bottom))
+        stack(dir: ttb, spacing: params.v-tightness, scale(y: params.v-scale, reflow: true, top), scale(y: params.v-scale, reflow: true, bottom))
       } else {
         scale(88%, char)
       }

@@ -1,8 +1,8 @@
-import { DEFAULT_PARAMS } from '../constants';
+import { SVG_PARAMS } from '../constants';
 import { getSplitMap, mergeParams } from '../utils';
 
 export function renderSvg(text: string, params?: Record<string, any>): string {
-  const p = mergeParams(DEFAULT_PARAMS, params);
+  const p = mergeParams(SVG_PARAMS, params);
   const { hSplitMap, vSplitMap } = getSplitMap();
 
   const chars = text.split('');

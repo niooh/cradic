@@ -1,8 +1,8 @@
-import { DEFAULT_PARAMS } from '../constants';
+import { HTML_PARAMS } from '../constants';
 import { getSplitMap, mergeParams } from '../utils';
 
 export function renderHtml(text: string, params?: Record<string, any>): string {
-  const p = mergeParams(DEFAULT_PARAMS, params);
+  const p = mergeParams(HTML_PARAMS, params);
   const { hSplitMap, vSplitMap } = getSplitMap();
 
   const css = generateCSS(p);
