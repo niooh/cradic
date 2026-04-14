@@ -79,10 +79,10 @@ async function run() {
 
   await test('saveAs: writes file', async () => {
     const fs = await import('fs');
-    await from('测试').to('text').saveAs('tests/test-output.txt');
-    const content = fs.readFileSync('tests/test-output.txt', 'utf-8');
+    await from('测试').to('text').saveAs('dist/tmp/test-output.txt');
+    const content = fs.readFileSync('dist/tmp/test-output.txt', 'utf-8');
     assert(content === '测试');
-    fs.unlinkSync('tests/test-output.txt');
+    fs.unlinkSync('dist/tmp/test-output.txt');
   });
 
   console.log('\nAll tests passed!');

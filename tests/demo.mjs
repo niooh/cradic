@@ -1,10 +1,16 @@
 import { from } from '../dist/cradic.esm.js';
 import { DEFAULT_PARAMS, OUTPUT_TYPES } from '../dist/cradic.esm.js';
+import { readFileSync } from 'fs';
 
-const html = await from('主测试乢汉字').to('html').toString();
-const svg = await from('主测试乢').to('svg').toString();
-const text = await from('主测试乢汉字').to('text').toString();
-const typ = await from('主测试乢').to('typ').toString();
+await from('主测试乢').to('html').saveAs('dist/tmp/demo.html');
+await from('主测试乢').to('svg').saveAs('dist/tmp/demo.svg');
+await from('主测试乢汉字').to('text').saveAs('dist/tmp/demo.txt');
+await from('主测试乢').to('typ').saveAs('dist/tmp/demo.typ');
+
+const html = readFileSync('dist/tmp/demo.html', 'utf-8');
+const svg = readFileSync('dist/tmp/demo.svg', 'utf-8');
+const text = readFileSync('dist/tmp/demo.txt', 'utf-8');
+const typ = readFileSync('dist/tmp/demo.typ', 'utf-8');
 
 console.log('=== HTML ===\n' + html + '\n');
 console.log('=== SVG ===\n' + svg + '\n');
