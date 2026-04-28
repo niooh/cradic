@@ -4,14 +4,11 @@ import { getSplitMap, mergeParams } from '../utils';
 export function renderTypst(text: string, params?: Record<string, any>): string {
   const p = mergeParams(TYPST_PARAMS, params);
   const { hSplitMap, vSplitMap } = getSplitMap();
-
-  const hMapStr = JSON.stringify(hSplitMap)
-    .replace(/"/g, '"')
-    .replace(/:/g, ': ');
-  const vMapStr = JSON.stringify(vSplitMap)
-    .replace(/"/g, '"')
-    .replace(/:/g, ': ');
-
+  
+  // 将 JSON 字典转换为 Typst 原生字典格式
+  const hMapStr = convertToTypstDict(hSplitMap);
+  const vMapStr = convertToTypstDict(vSplitMap);
+  
   return `#set page(width: auto, height: auto, margin: 1cm)
 
 #let params = (
@@ -57,4 +54,17 @@ export function renderTypst(text: string, params?: Record<string, any>): string 
   row-gutter: params.box-gap,
   ..("${text}".clusters().map(char => char-cell(char)))
 )`;
+}
+
+/**
+ * 将 JSON 字典转换为 Typst 原生字典格式
+ * 输入: { "乢": "山乚", "乣": "幺乚" }
+ * 输出: ("乢": ("山", "乚"), "乣": ("幺", "乚"))
+ */
+function convertToTypstDict(jsonDict: Record<string, string>): string {
+  const entries = Object.entries(jsonDict).map(([key, value]) => {
+    const [part1, part2] = value.split('');
+    return `"${key}": ("${part1}", "${part2}")`;
+  });
+  return `(${entries.join(', ')})`;
 }
