@@ -8,7 +8,7 @@ export async function generateBinary(
   format: 'png' | 'jpg' | 'pdf'
 ): Promise<Buffer> {
   if (format === 'pdf') {
-    return generatePdfFromTyp(input);
+    return generatePdfFromTypst(input);
   } else {
     return generateRasterFromSvg(input, format);
   }
@@ -16,34 +16,51 @@ export async function generateBinary(
 
 /**
  * SVG 字符串 -> rsvg-convert -> PNG/JPG Buffer
- * 内部创建并清理临时 SVG 文件
+ * 关键：rsvg-convert -o 将数据写入文件，需要读取文件而不是 stdout
  */
 function generateRasterFromSvg(svg: string, format: 'png' | 'jpg'): Buffer {
   const tmpSvgFile = join(tmpdir(), `cradic-${Date.now()}.svg`);
-  const tmpPngFile = tmpSvgFile.replace(/\.svg$/, '.png');
+  const tmpOutputFile = tmpSvgFile.replace(/\.svg$/, `.${format}`);
+  
   writeFileSync(tmpSvgFile, svg);
+  
   try {
-    return execSync(`rsvg-convert "${tmpSvgFile}" -o "${tmpPngFile}"`, { stdio: 'pipe' });
+    execSync(`rsvg-convert "${tmpSvgFile}" -o "${tmpOutputFile}"`, {
+      stdio: 'pipe',
+      encoding: 'buffer',
+    });
+    
+    // 读取生成的文件
+    return readFileSync(tmpOutputFile);
+  } catch (error) {
+    throw new Error(
+      `Failed to generate ${format.toUpperCase()} from SVG. ` +
+      `Make sure rsvg-convert is installed.\n` +
+      `Install: brew install librsvg (macOS) or apt-get install librsvg2-bin (Linux)\n` +
+      `Details: ${(error as Error).message}`
+    );
   } finally {
-    unlinkSync(tmpSvgFile);
+    try { unlinkSync(tmpSvgFile); } catch {}
+    try { unlinkSync(tmpOutputFile); } catch {}
   }
 }
 
 /**
  * Typst 源码字符串 -> typst compile -> PDF Buffer
- * 内部创建并清理临时 .typ 和 .pdf 文件
  */
-function generatePdfFromTyp(typstCode: string): Buffer {
+function generatePdfFromTypst(typstCode: string): Buffer {
   const tmpTypstFile = join(tmpdir(), `cradic-${Date.now()}.typ`);
   const tmpPdfFile = tmpTypstFile.replace(/\.typ$/, '.pdf');
-
+  
   writeFileSync(tmpTypstFile, typstCode, 'utf-8');
-
+  
   try {
     execSync(`typst compile "${tmpTypstFile}" "${tmpPdfFile}"`, {
       encoding: 'utf-8',
       stdio: 'pipe',
     });
+    
+    // 读取生成的 PDF 文件
     return readFileSync(tmpPdfFile);
   } catch (error) {
     throw new Error(

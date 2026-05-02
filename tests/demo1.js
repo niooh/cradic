@@ -1,7 +1,7 @@
 import { from } from '../dist/cradic.esm.js';
 
 const text = '主测试乢汉字乣拆分乨演示罢了';
-const formats = ['html', 'svg', 'text', 'typ'];
+const formats = ['html', 'svg', 'txt', 'typ'];
 
 async function run() {
   for (const fmt of formats) {
