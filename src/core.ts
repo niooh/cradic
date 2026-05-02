@@ -47,7 +47,7 @@ export class Cradic {
         if (!isNodeEnv()) {
           throw new Error(`${this.outputType} is not supported in browser`);
         }
-        this.content = await this.generateImage();
+        this.content = await this.generateBinary();
         break;
       default:
         throw new Error(`Unknown output type: ${this.outputType}`);
@@ -55,15 +55,21 @@ export class Cradic {
     return this.content;
   }
 
-  private async generateImage(): Promise<string> {
+  private async generateBinary(): Promise<string> {
     if (!isNodeEnv()) {
-      throw new Error('Image generation only works in Node.js');
+      throw new Error('Binary generation only works in Node.js');
     }
-    
-    // 使用相对路径
-    const { generateImage } = await import('./node/image');
-    const svg = renderSvg(this.text, this.customParams);
-    return generateImage(svg, this.outputType as 'png' | 'jpg' | 'pdf');
+
+    const { generateBinary } = await import('./node/binary');
+
+    // 根据输出类型决定使用 SVG 还是 Typst
+    const input = this.outputType === 'pdf'
+      ? renderTypst(this.text, this.customParams)
+      : renderSvg(this.text, this.customParams);
+
+    const buffer = await generateBinary(input, this.outputType as 'png' | 'jpg' | 'pdf');
+
+    return buffer.toString('base64');
   }
 
   log(): this {
@@ -75,14 +81,23 @@ export class Cradic {
 
   async saveAs(filename: string): Promise<void> {
     const content = await this.generate();
+  
     if (isNodeEnv()) {
       const { saveFile } = await import('./node/fs');
-      await saveFile(filename, content);
+    
+      // 对于二进制格式，需要特殊处理
+      if (['png', 'jpg', 'pdf'].includes(this.outputType)) {
+        const { saveBinaryFile } = await import('./node/fs');
+        const buffer = Buffer.from(content, 'base64');
+        await saveBinaryFile(filename, buffer);
+      } else {
+        await saveFile(filename, content);
+      }
     } else if (isBrowserEnv()) {
       const mimeType = this.getMimeType();
       downloadFile(content, filename, mimeType);
     }
-  }
+}
 
   private getMimeType(): string {
     switch (this.outputType) {

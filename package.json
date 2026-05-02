@@ -14,8 +14,8 @@
     "build:browser": "vite build",
     "build:all": "npm run build:browser && npm run build",
     "dev": "vite",
-    "test": "node tests/test.mjs",
-    "demo": "node tests/demo.mjs"
+    "test": "node tests/test.js",
+    "demo": "node tests/demo1.js && node tests/demo2.js"
   },
   "exports": {
     ".": {

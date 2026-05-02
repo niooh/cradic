@@ -19,7 +19,7 @@ export default defineConfig({
     alias: {
       '@': resolve(__dirname, './src'),
       // 将 Node.js 模块重定向到 stub 文件
-      './node/image': resolve(__dirname, './src/node/image.stub.ts'),
+      './node/binary': resolve(__dirname, './src/node/binary.stub.ts'),
       './node/fs': resolve(__dirname, './src/node/fs.stub.ts'),
     },
   },

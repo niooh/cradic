@@ -6,7 +6,7 @@ export function renderSvg(text: string, params?: Record<string, any>): string {
   const { hSplitMap, vSplitMap } = getSplitMap();
   const chars = text.split('');
   const items: string[] = [];
-  
+
   chars.forEach((char, idx) => {
     const col = idx % p.cols;
     const row = Math.floor(idx / p.cols);
@@ -14,11 +14,12 @@ export function renderSvg(text: string, params?: Record<string, any>): string {
     const cellY = row * (p.boxHeight + p.boxGapV);
     items.push(getCharSvgItem(char, cellX, cellY, hSplitMap, vSplitMap, p));
   });
-  
+
   const totalRows = Math.ceil(chars.length / p.cols);
-  const svgW = p.cols * (p.boxWidth + p.boxGapH);
-  const svgH = totalRows * (p.boxHeight + p.boxGapV);
-  
+  // 减去一个间隙
+  const svgW = p.cols * (p.boxWidth + p.boxGapH) - p.boxGapH;
+  const svgH = totalRows * (p.boxHeight + p.boxGapV) - p.boxGapV;
+
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${svgW}" height="${svgH}">
     ${items.join('')}
   </svg>`;
@@ -36,17 +37,22 @@ function getCharSvgItem(
   const h = p.boxHeight;
   const centerX = cellX + w / 2;
   const centerY = cellY + h / 2;
-  
+
+  // 边框
   const rect = p.showBoxBorder
     ? `<rect x="${cellX}" y="${cellY}" width="${w}" height="${h}" fill="none" stroke="${p.boxBorderColor}" stroke-width="1"/>`
     : '';
-  
-  const commonAttr = `font-family="SimSun, Microsoft YaHei, serif" font-size="${p.boxHeight * p.partScale}px" text-anchor="middle" dominant-baseline="central" fill="#000"`;
-  
+
+  // 公共文本属性（紧凑格式）
+  const baseFontSize = p.boxHeight * p.partScale;
+  const commonAttr = `font-family="SimSun, Microsoft YaHei, serif" font-size="${baseFontSize}px" text-anchor="middle" dominant-baseline="central" fill="#000"`;
+
+  // 普通字符（无拆分）
   if (!hSplitMap[char] && !vSplitMap[char]) {
     return `${rect}<text x="${centerX}" y="${centerY}" ${commonAttr}>${char}</text>`;
   }
-  
+
+  // 左右拆分
   if (hSplitMap[char]) {
     const [left, right] = hSplitMap[char].split('');
     const leftCenterX = cellX + w * 0.25 + p.hLeftOffsetX;
@@ -55,7 +61,8 @@ function getCharSvgItem(
     const transRight = `translate(${rightCenterX}, ${centerY}) scale(${p.hRightScaleX}, 1)`;
     return `${rect}<text transform="${transLeft}" ${commonAttr}>${left}</text><text transform="${transRight}" ${commonAttr}>${right}</text>`;
   }
-  
+
+  // 上下拆分
   if (vSplitMap[char]) {
     const [top, bottom] = vSplitMap[char].split('');
     const topCenterY = cellY + h * 0.25 + p.vTopOffsetY;
@@ -64,6 +71,6 @@ function getCharSvgItem(
     const transBottom = `translate(${centerX}, ${bottomCenterY}) scale(1, ${p.vBottomScaleY})`;
     return `${rect}<text transform="${transTop}" ${commonAttr}>${top}</text><text transform="${transBottom}" ${commonAttr}>${bottom}</text>`;
   }
-  
+
   return '';
 }
