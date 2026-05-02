@@ -10,11 +10,13 @@ export default {
       format: 'cjs',
       entryFileNames: 'cradic.cjs',
       exports: 'named',
+      inlineDynamicImports: true,  // 内联所有动态导入
     },
     {
       dir: 'dist',
       format: 'es',
       entryFileNames: 'cradic.esm.js',
+      inlineDynamicImports: true,
     },
   ],
   plugins: [

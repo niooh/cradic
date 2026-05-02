@@ -1,6 +1,6 @@
 import { from } from '../dist/cradic.esm.js';
 
-const text = '主测试乢汉字乣拆分乨演示罢了';
+const text = '一个简单的汉字结构拆解测试';
 const formats = ['png', 'jpg', 'pdf'];
 
 async function run() {

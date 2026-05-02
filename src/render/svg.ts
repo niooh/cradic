@@ -20,9 +20,8 @@ export function renderSvg(text: string, params?: Record<string, any>): string {
   const svgW = p.cols * (p.boxWidth + p.boxGapH) - p.boxGapH;
   const svgH = totalRows * (p.boxHeight + p.boxGapV) - p.boxGapV;
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${svgW}" height="${svgH}">
-    ${items.join('')}
-  </svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${svgW}" height="${svgH}">` +
+    `${items.join('')}</svg>`;
 }
 
 function getCharSvgItem(

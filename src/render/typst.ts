@@ -57,9 +57,9 @@ export function renderTypst(text: string, params?: Record<string, any>): string 
 }
 
 /**
- * 将 JSON 字典转换为 Typst 原生字典格式
- * 输入: { "乢": "山乚", "乣": "幺乚" }
- * 输出: ("乢": ("山", "乚"), "乣": ("幺", "乚"))
+ * JSON -> Typst Dict
+ * 输入: { "测":"氵则", "试":"讠式" }
+ * 输出: ("测": ("氵", "则"), "试": ("讠", "式"))
  */
 function convertToTypstDict(jsonDict: Record<string, string>): string {
   const entries = Object.entries(jsonDict).map(([key, value]) => {

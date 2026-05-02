@@ -12,6 +12,7 @@ export default defineConfig({
       external: [],
       output: {
         globals: {},
+        inlineDynamicImports: true,
       },
     },
   },
@@ -24,7 +25,6 @@ export default defineConfig({
     },
   },
   define: {
-    // 在浏览器构建中定义环境标志
     'process.env.BROWSER': 'true',
   },
 });

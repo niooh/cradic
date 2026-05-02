@@ -15,8 +15,7 @@ export async function generateBinary(
 }
 
 /**
- * SVG 字符串 -> rsvg-convert -> PNG/JPG Buffer
- * 关键：rsvg-convert -o 将数据写入文件，需要读取文件而不是 stdout
+ * svg 字符串 -> rsvg-convert -> PNG/JPG Buffer
  */
 function generateRasterFromSvg(svg: string, format: 'png' | 'jpg'): Buffer {
   const tmpSvgFile = join(tmpdir(), `cradic-${Date.now()}.svg`);
@@ -46,7 +45,7 @@ function generateRasterFromSvg(svg: string, format: 'png' | 'jpg'): Buffer {
 }
 
 /**
- * Typst 源码字符串 -> typst compile -> PDF Buffer
+ * typ 字符串 -> typst compile -> PDF Buffer
  */
 function generatePdfFromTypst(typstCode: string): Buffer {
   const tmpTypstFile = join(tmpdir(), `cradic-${Date.now()}.typ`);
