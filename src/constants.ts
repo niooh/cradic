@@ -1,4 +1,6 @@
 export const HTML_PARAMS = {
+  mode: 'b',
+
   boxWidth: 60,
   boxHeight: 60,
   showBoxBorder: true,
@@ -22,6 +24,8 @@ export const HTML_PARAMS = {
 };
 
 export const SVG_PARAMS = {
+  mode: 'b',
+
   boxWidth: 60,
   boxHeight: 60,
   showBoxBorder: true,
@@ -43,6 +47,8 @@ export const SVG_PARAMS = {
 };
 
 export const TYPST_PARAMS = {
+  mode: 'b',
+
   boxSize: 40,
   cols: 6,
   boxGap: 5,
@@ -58,3 +64,11 @@ export const DEFAULT_PARAMS = HTML_PARAMS;
 
 export const OUTPUT_TYPES = ['html', 'svg', 'typ', 'text', 'png', 'jpg', 'pdf'] as const;
 export type OutputType = typeof OUTPUT_TYPES[number];
+
+export const TYPE_ALIAS = {
+  txt: 'text',
+  htm: 'html',
+  jpeg: 'jpg',
+} as const;
+
+export type OutputTypeAlias = keyof typeof TYPE_ALIAS;

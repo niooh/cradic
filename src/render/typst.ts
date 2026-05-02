@@ -3,9 +3,9 @@ import { getSplitMap, mergeParams } from '../utils';
 
 export function renderTypst(text: string, params?: Record<string, any>): string {
   const p = mergeParams(TYPST_PARAMS, params);
-  const { hSplitMap, vSplitMap } = getSplitMap();
+  const { hSplitMap, vSplitMap } = getSplitMap(params?.mode);
   
-  // 将 JSON 字典转换为 Typst 原生字典格式
+  // JSON -> Typst Dict
   const hMapStr = convertToTypstDict(hSplitMap);
   const vMapStr = convertToTypstDict(vSplitMap);
   

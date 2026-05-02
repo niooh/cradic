@@ -1,15 +1,22 @@
-import { OutputType, DEFAULT_PARAMS } from './constants';
+import { OutputType, DEFAULT_PARAMS, TYPE_ALIAS, OutputTypeAlias } from './constants';
 import { isNodeEnv, isBrowserEnv, downloadFile } from './utils';
 import { renderHtml } from './render/html';
 import { renderSvg } from './render/svg';
 import { renderText } from './render/text';
 import { renderTypst } from './render/typst';
 
-const TYPE_ALIAS = {
-  txt: "text",
-  htm: "html", 
-  jpeg: "jpg"
-} as const;
+function getMimeType(type: OutputType): string {
+  switch (type) {
+    case 'html': return 'text/html';
+    case 'svg': return 'image/svg+xml';
+    case 'text': return 'text/plain';
+    case 'typ': return 'text/plain';
+    case 'png': return 'image/png';
+    case 'jpg': return 'image/jpeg';
+    case 'pdf': return 'application/pdf';
+    default: return 'application/octet-stream';
+  }
+}
 
 export class Cradic {
   private text: string;
@@ -21,10 +28,8 @@ export class Cradic {
     this.text = text;
   }
 
-  to(type: OutputType | "txt" | "htm" | "jpeg"): this {
-    this.outputType = (
-      TYPE_ALIAS[type as keyof typeof TYPE_ALIAS] || type
-    ) as OutputType;
+  to(type: OutputType | OutputTypeAlias): this {
+    this.outputType = (TYPE_ALIAS[type as OutputTypeAlias] || type) as OutputType;
     return this;
   }
 
@@ -44,7 +49,7 @@ export class Cradic {
         this.content = renderSvg(this.text, this.customParams);
         break;
       case 'text':
-        this.content = renderText(this.text);
+        this.content = renderText(this.text, this.customParams);
         break;
       case 'typ':
         this.content = renderTypst(this.text, this.customParams);
@@ -106,7 +111,7 @@ export class Cradic {
         await saveFile(filename, content);
       }
     } else if (isBrowserEnv()) {
-      const mimeType = this.getMimeType();
+      const mimeType = getMimeType(this.outputType);
       // 浏览器环境中，二进制文件应该已经被处理
       downloadFile(content as string, filename, mimeType);
     }

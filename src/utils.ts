@@ -1,10 +1,11 @@
 import hSplitMap from '../assets/h.json';
 import vSplitMap from '../assets/v.json';
 
-export function getSplitMap() {
-  return { 
-    hSplitMap: hSplitMap as Record<string, string>,
-    vSplitMap: vSplitMap as Record<string, string>
+// 按mode过滤拆分Map
+export function getSplitMap(mode: 'b' | 'h' | 'v') {
+  return {
+    hSplitMap: mode === 'v' ? {} : hSplitMap as Record<string, string>,
+    vSplitMap: mode === 'h' ? {} : vSplitMap as Record<string, string>
   };
 }
 

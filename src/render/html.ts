@@ -3,7 +3,7 @@ import { getSplitMap, mergeParams } from '../utils';
 
 export function renderHtml(text: string, params?: Record<string, any>): string {
   const p = mergeParams(HTML_PARAMS, params);
-  const { hSplitMap, vSplitMap } = getSplitMap();
+  const { hSplitMap, vSplitMap } = getSplitMap(params?.mode);
   const css = generateCSS(p);
   const html = strToSplitHtml(text, hSplitMap, vSplitMap, p);
   
@@ -26,7 +26,7 @@ function generateCSS(p: Record<string, any>): string {
     ? `border: 1px solid ${p.boxBorderColor};`
     : 'border: none;';
   
-  return `
+  return `\
     body {
       font-family: 'SimSun', 'Microsoft YaHei', sans-serif;
       font-size: 32px;
@@ -99,8 +99,7 @@ function generateCSS(p: Record<string, any>): string {
     
     .part-bottom {
       transform: scaleY(${p.vBottomScaleY}) translateY(${p.vBottomOffsetY}em);
-    }
-  `;
+    }`;
 }
 
 function strToSplitHtml(

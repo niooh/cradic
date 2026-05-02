@@ -3,7 +3,7 @@ import { getSplitMap, mergeParams } from '../utils';
 
 export function renderSvg(text: string, params?: Record<string, any>): string {
   const p = mergeParams(SVG_PARAMS, params);
-  const { hSplitMap, vSplitMap } = getSplitMap();
+  const { hSplitMap, vSplitMap } = getSplitMap(params?.mode);
   const chars = text.split('');
   const items: string[] = [];
 

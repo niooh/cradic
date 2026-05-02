@@ -1,7 +1,7 @@
 import { getSplitMap } from '../utils';
 
-export function renderText(text: string): string {
-  const { hSplitMap, vSplitMap } = getSplitMap();
+export function renderText(text: string, params?: Record<string, any>): string {
+  const { hSplitMap, vSplitMap } = getSplitMap(params?.mode);
 
   return text
     .split('')

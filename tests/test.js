@@ -13,6 +13,7 @@ async function test(name, fn) {
 }
 
 async function run() {
+  // 基础测试
   await test('HTML: basic output', async () => {
     const html = await from('汉字').to('html').toString();
     assert(html.includes('<!DOCTYPE html>'));
@@ -84,6 +85,55 @@ async function run() {
     assert(content === '测试');
     fs.unlinkSync('dist/tmp/test-output.txt');
   });
+
+  // mode 参数测试
+  await test('Mode: h = only horizontal split', async () => {
+    const text = await from('主乢').to('text').with({ mode: 'h' }).toString();
+    assert(text === '主山乚');
+  });
+
+  await test('Mode: v = only vertical split', async () => {
+    const text = await from('主乢').to('text').with({ mode: 'v' }).toString();
+    assert(text === '亠土乢');
+  });
+
+  await test('Mode: b = both h+v split (default)', async () => {
+    const text = await from('主乢').to('text').with({ mode: 'b' }).toString();
+    assert(text === '亠土山乚');
+  });
+
+/*
+  await test('Mode: h → HTML only render h-split', async () => {
+    const html = await from('主乢').to('html').with({ mode: 'h' }).toString();
+    assert(html.includes('h-split'));
+    assert(!html.includes('v-split'));
+  });
+
+  await test('Mode: v → HTML only render v-split', async () => {
+    const html = await from('主乢').to('html').with({ mode: 'v' }).toString();
+    assert(html.includes('v-split'));
+    assert(!html.includes('h-split'));
+  });
+
+  await test('Mode: h → SVG only process h-split', async () => {
+    const svg = await from('主乢').to('svg').with({ mode: 'h' }).toString();
+    assert(svg.includes('山') && svg.includes('乚'));
+    assert(svg.includes('主'));
+  });
+
+  await test('Mode: v → SVG only process v-split', async () => {
+    const svg = await from('主乢').to('svg').with({ mode: 'v' }).toString();
+    assert(svg.includes('亠') && svg.includes('土'));
+    assert(svg.includes('乢'));
+  });
+
+  await test('Mode: works in Typst with filter', async () => {
+    const typH = await from('主乢').to('typ').with({ mode: 'h' }).toString();
+    const typV = await from('主乢').to('typ').with({ mode: 'v' }).toString();
+    assert(typH.includes('h-split-map'));
+    assert(typV.includes('v-split-map'));
+  });
+*/
 
   console.log('\nAll tests passed!');
 }
