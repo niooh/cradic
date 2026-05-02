@@ -3,12 +3,12 @@ import { getSplitMap, mergeParams } from '../utils';
 
 export function renderTypst(text: string, params?: Record<string, any>): string {
   const p = mergeParams(TYPST_PARAMS, params);
-  const { hSplitMap, vSplitMap } = getSplitMap(params?.mode);
-  
-  // JSON -> Typst Dict
+  const { hSplitMap, vSplitMap } = getSplitMap(text, p.mode);
+
+  // 即使映射为空，convert 也输出 ()，非常精简
   const hMapStr = convertToTypstDict(hSplitMap);
   const vMapStr = convertToTypstDict(vSplitMap);
-  
+
   return `#set page(width: auto, height: auto, margin: 1cm)
 
 #let params = (

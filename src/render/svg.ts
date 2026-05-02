@@ -3,7 +3,7 @@ import { getSplitMap, mergeParams } from '../utils';
 
 export function renderSvg(text: string, params?: Record<string, any>): string {
   const p = mergeParams(SVG_PARAMS, params);
-  const { hSplitMap, vSplitMap } = getSplitMap(params?.mode);
+  const { hSplitMap, vSplitMap } = getSplitMap(text, p.mode);
   const chars = text.split('');
   const items: string[] = [];
 
@@ -16,7 +16,6 @@ export function renderSvg(text: string, params?: Record<string, any>): string {
   });
 
   const totalRows = Math.ceil(chars.length / p.cols);
-  // 减去一个间隙
   const svgW = p.cols * (p.boxWidth + p.boxGapH) - p.boxGapH;
   const svgH = totalRows * (p.boxHeight + p.boxGapV) - p.boxGapV;
 
@@ -37,21 +36,17 @@ function getCharSvgItem(
   const centerX = cellX + w / 2;
   const centerY = cellY + h / 2;
 
-  // 边框
   const rect = p.showBoxBorder
     ? `<rect x="${cellX}" y="${cellY}" width="${w}" height="${h}" fill="none" stroke="${p.boxBorderColor}" stroke-width="1"/>`
     : '';
 
-  // 公共文本属性（紧凑格式）
   const baseFontSize = p.boxHeight * p.partScale;
   const commonAttr = `font-family="SimSun, Microsoft YaHei, serif" font-size="${baseFontSize}px" text-anchor="middle" dominant-baseline="central" fill="#000"`;
 
-  // 普通字符（无拆分）
   if (!hSplitMap[char] && !vSplitMap[char]) {
     return `${rect}<text x="${centerX}" y="${centerY}" ${commonAttr}>${char}</text>`;
   }
 
-  // 左右拆分
   if (hSplitMap[char]) {
     const [left, right] = hSplitMap[char].split('');
     const leftCenterX = cellX + w * 0.25 + p.hLeftOffsetX;
@@ -61,7 +56,6 @@ function getCharSvgItem(
     return `${rect}<text transform="${transLeft}" ${commonAttr}>${left}</text><text transform="${transRight}" ${commonAttr}>${right}</text>`;
   }
 
-  // 上下拆分
   if (vSplitMap[char]) {
     const [top, bottom] = vSplitMap[char].split('');
     const topCenterY = cellY + h * 0.25 + p.vTopOffsetY;
