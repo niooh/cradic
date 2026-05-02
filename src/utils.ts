@@ -2,7 +2,10 @@ import hSplitMap from '../assets/h.json';
 import vSplitMap from '../assets/v.json';
 
 export function getSplitMap() {
-  return { hSplitMap, vSplitMap };
+  return { 
+    hSplitMap: hSplitMap as Record<string, string>,
+    vSplitMap: vSplitMap as Record<string, string>
+  };
 }
 
 export function isNodeEnv(): boolean {

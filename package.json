@@ -10,11 +10,21 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "rollup -c rollup.config.js",
     "build:browser": "vite build",
+    "build:all": "npm run build:browser && npm run build",
     "dev": "vite",
     "test": "node tests/test.mjs",
     "demo": "node tests/demo.mjs"
+  },
+  "exports": {
+    ".": {
+      "node": {
+        "import": "./dist/cradic.esm.js",
+        "require": "./dist/cradic.cjs"
+      },
+      "browser": "./dist/cradic.browser.js"
+    }
   },
   "devDependencies": {
     "@rollup/plugin-json": "^6.1.0",

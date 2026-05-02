@@ -18,6 +18,13 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
+      // 将 Node.js 模块重定向到 stub 文件
+      './node/image': resolve(__dirname, './src/node/image.stub.ts'),
+      './node/fs': resolve(__dirname, './src/node/fs.stub.ts'),
     },
+  },
+  define: {
+    // 在浏览器构建中定义环境标志
+    'process.env.BROWSER': 'true',
   },
 });

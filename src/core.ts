@@ -44,22 +44,23 @@ export class Cradic {
       case 'png':
       case 'jpg':
       case 'pdf':
-        if (isNodeEnv()) {
-          this.content = await this.generateImage();
-        } else {
+        if (!isNodeEnv()) {
           throw new Error(`${this.outputType} is not supported in browser`);
         }
+        this.content = await this.generateImage();
         break;
       default:
         throw new Error(`Unknown output type: ${this.outputType}`);
     }
-
     return this.content;
   }
 
   private async generateImage(): Promise<string> {
-    if (!isNodeEnv()) throw new Error('Image generation only works in Node.js');
-
+    if (!isNodeEnv()) {
+      throw new Error('Image generation only works in Node.js');
+    }
+    
+    // 使用相对路径
     const { generateImage } = await import('./node/image');
     const svg = renderSvg(this.text, this.customParams);
     return generateImage(svg, this.outputType as 'png' | 'jpg' | 'pdf');
@@ -74,7 +75,6 @@ export class Cradic {
 
   async saveAs(filename: string): Promise<void> {
     const content = await this.generate();
-
     if (isNodeEnv()) {
       const { saveFile } = await import('./node/fs');
       await saveFile(filename, content);

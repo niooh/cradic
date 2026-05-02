@@ -1,8 +1,16 @@
-import { writeFile } from 'fs/promises';
-import { resolve } from 'path';
+import { writeFile, mkdir } from 'fs/promises';
+import { resolve, dirname } from 'path';
 
 export async function saveFile(filename: string, content: string): Promise<void> {
-  const filepath = resolve(process.cwd(), filename);
-  await writeFile(filepath, content, 'utf-8');
-  console.log(`Saved to ${filepath}`);
+  try {
+    const filepath = resolve(process.cwd(), filename);
+    const directory = dirname(filepath);
+    
+    await mkdir(directory, { recursive: true });
+    await writeFile(filepath, content, 'utf-8');
+    console.log(`Saved to ${filepath}`);
+  } catch (error) {
+    console.error(`Failed to save file: ${(error as Error).message}`);
+    throw error;
+  }
 }
