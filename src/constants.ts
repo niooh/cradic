@@ -60,6 +60,11 @@ export const TYPST_PARAMS = {
   stroke: '0.5pt + gray',
 };
 
+export const TEXT_PARAMS = {
+  mode: 'b',
+  sep: '', // 默认无分隔
+};
+
 export const DEFAULT_PARAMS = HTML_PARAMS;
 
 export const OUTPUT_TYPES = ['html', 'svg', 'typ', 'text', 'png', 'jpg', 'pdf'] as const;

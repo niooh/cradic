@@ -26,7 +26,7 @@ function generateCSS(p: Record<string, any>, useH: boolean, useV: boolean): stri
     ? `border: 1px solid ${p.boxBorderColor};`
     : 'border: none;';
 
-  let css = `
+  let css = `\
     body {
       font-family: 'SimSun', 'Microsoft YaHei', sans-serif;
       font-size: 32px;
@@ -52,7 +52,7 @@ function generateCSS(p: Record<string, any>, useH: boolean, useV: boolean): stri
     }`;
 
   if (useH) {
-    css += `
+    css += `\
     .split-char.h-split {
       flex-direction: row;
     }
@@ -77,7 +77,7 @@ function generateCSS(p: Record<string, any>, useH: boolean, useV: boolean): stri
   }
 
   if (useV) {
-    css += `
+    css += `\
     .split-char.v-split {
       flex-direction: column;
     }
@@ -115,17 +115,17 @@ function strToSplitHtml(
     .map((char) => {
       if (hSplitMap[char]) {
         const [left, right] = hSplitMap[char].split('');
-        return `<span class="split-char h-split" title="原字: ${char}">
-          <span class="part part-left">${left}</span>
-          <span class="part part-right">${right}</span>
-        </span>`;
+        return `<span class="split-char h-split">`+
+          `<span class="part part-left">${left}</span>`+
+          `<span class="part part-right">${right}</span>`+
+        `</span>`;
       }
       if (vSplitMap[char]) {
         const [top, bottom] = vSplitMap[char].split('');
-        return `<span class="split-char v-split" title="原字: ${char}">
-          <span class="part part-top">${top}</span>
-          <span class="part part-bottom">${bottom}</span>
-        </span>`;
+        return `<span class="split-char v-split">`+
+          `<span class="part part-top">${top}</span>`+
+          `<span class="part part-bottom">${bottom}</span>`+
+        `</span>`;
       }
       return `<span class="split-char">${char}</span>`;
     })

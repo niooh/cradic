@@ -1,8 +1,12 @@
 {
   "name": "cradic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
-  "description": "Chinese character splitting and reorganization library",
+  "description": "Deconstruct Chinese characters into radicals and reassemble them for intriguing visual effects",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ldlsn1/cradic"
+  },
   "main": "dist/cradic.cjs",
   "module": "dist/cradic.esm.js",
   "types": "dist/index.d.ts",
@@ -10,9 +14,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c rollup.config.js",
+    "build:node": "rollup -c rollup.config.js",
     "build:browser": "vite build",
-    "build:all": "npm run build:browser && npm run build",
+    "build": "npm run build:browser && npm run build:node",
+    "prepublishOnly": "rm -rf dist/tmp && npm run build",
     "dev": "vite",
     "test": "node tests/test.js",
     "demo": "node tests/demo1.js && node tests/demo2.js"
@@ -35,12 +40,7 @@
     "typescript": "^5.0.0",
     "vite": "^5.0.0"
   },
-  "keywords": [
-    "chinese",
-    "character",
-    "split",
-    "typography"
-  ],
-  "author": "",
+  "keywords": [ "chinese", "character", "radical", "deconstruct", "reassemble", "visualization", "split", "typography" ],
+  "author": "ldlsn1",
   "license": "MIT"
 }
