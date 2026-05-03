@@ -35,7 +35,7 @@ function generateRasterFromSvg(svg: string, format: 'png' | 'jpg'): Buffer {
     throw new Error(
       `Failed to generate ${format.toUpperCase()} from SVG. ` +
       `Make sure rsvg-convert is installed.\n` +
-      `Install: brew install librsvg (macOS) or apt-get install librsvg2-bin (Linux)\n` +
+      `Install: brew install librsvg (macOS) or apt install librsvg2-bin (Linux)\n` +
       `Details: ${(error as Error).message}`
     );
   } finally {
@@ -65,7 +65,6 @@ function generatePdfFromTypst(typstCode: string): Buffer {
     throw new Error(
       `Failed to generate PDF from Typst code. ` +
       `Make sure typst is installed.\n` +
-      `Install: brew install typst (macOS) or visit https://github.com/typst/typst/releases\n` +
       `Details: ${(error as Error).message}`
     );
   } finally {

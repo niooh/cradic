@@ -10,7 +10,7 @@ export default {
       format: 'cjs',
       entryFileNames: 'cradic.cjs',
       exports: 'named',
-      inlineDynamicImports: true,  // 内联所有动态导入
+      inlineDynamicImports: true,
     },
     {
       dir: 'dist',
@@ -22,6 +22,6 @@ export default {
   plugins: [
     json(),
     typescript({ tsconfig: './tsconfig.json' }),
-  ],
+   ],
   external: ['fs/promises', 'fs', 'path', 'child_process', 'os', 'buffer'],
 };

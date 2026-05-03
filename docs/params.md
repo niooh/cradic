@@ -9,9 +9,18 @@
 - `'v'`: Only vertical splits (e.g., 字 → 宀子, 汉 stays as 汉)
 
 Example:
-```js
-from('汉字').to('text').with({ mode: 'h' }).toString()
-// "氵又字"
+```javascript
+// Both split
+from('汉字').to('text').with({ mode: 'b' }).log();
+// -> '氵又宀子'
+
+// Only horizontal splits
+from('汉字').to('text').with({ mode: 'h' }).log();
+// -> '氵又字'
+
+// Only vertical splits
+from('汉字').to('text').with({ mode: 'v' }).log();
+// -> '汉宀子'
 ```
 
 ## HTML Parameters
@@ -32,10 +41,24 @@ from('汉字').to('text').with({ mode: 'h' }).toString()
 | `hRightOffsetX` | -0.3 | Right offset (em) |
 | `vTopOffsetY` | 0.5 | Top offset (em) |
 | `vBottomOffsetY` | -0.5 | Bottom offset (em) |
-| `fontFamily` | "'SimSun', 'Microsoft YaHei', sans-serif" | Font family |
+| `fontFamily` | "'Noto Sans CJK SC', 'Noto Serif CJK SC'" | Font family |
 | `fontWeight` | 380 | Font weight for parts |
 | `textStroke` | '1px' | Text stroke |
 | `textStrokeColor` | '#000' | Stroke color |
+
+Example:
+```javascript
+from('汉字').to('text').with({
+  boxWidth: 60,
+  boxHeight: 60,
+  showBoxBorder: true,
+}).log();
+```
+
+
+## Text Parameters
+
+
 
 ## SVG Parameters
 
@@ -57,7 +80,7 @@ from('汉字').to('text').with({ mode: 'h' }).toString()
 | `hRightOffsetX` | -2 | Right offset (px) |
 | `vTopOffsetY` | 6 | Top offset (px) |
 | `vBottomOffsetY` | -6 | Bottom offset (px) |
-| `fontFamily` | 'SimSun, Microsoft YaHei, serif' | Font family |
+| `fontFamily` | "'Noto Sans CJK SC', 'Noto Serif CJK SC'" | Font family |
 
 ## Typst Parameters
 

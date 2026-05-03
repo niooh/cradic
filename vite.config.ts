@@ -13,7 +13,7 @@ export default defineConfig({
       external: [],
       output: {
         globals: {},
-        inlineDynamicImports: true,
+        codeSplitting: false // vite8 config
       },
     },
     minify: 'terser',

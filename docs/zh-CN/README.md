@@ -148,5 +148,5 @@ npm run build:browser  # 浏览器构建
 
 ## 许可证
 
-本项目源代码采用 MIT 协议开源。  
-`h.json`、`v.json` 部分数据来源于 https://github.com/kfcd/chaizi ，该部分数据遵循 **CC BY 3.0** 协议。
+本项目源代码采用 MIT 协议开源。
+`h.json`、`v.json` 部分数据来源于 [漢語拆字字典](https://github.com/kfcd/chaizi)，该部分数据遵循 **CC BY 3.0** 协议。

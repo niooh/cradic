@@ -21,7 +21,7 @@ export const HTML_PARAMS = {
   fontWeight: 380,
   textStroke: '1px',
   textStrokeColor: '#000',
-  fontFamily: "'SimSun', 'Microsoft YaHei', sans-serif",
+  fontFamily: "'Noto Sans CJK SC', 'Noto Serif CJK SC'",
 };
 
 export const SVG_PARAMS = {
@@ -45,7 +45,7 @@ export const SVG_PARAMS = {
   hRightOffsetX: -2,
   vTopOffsetY: 6,
   vBottomOffsetY: -6,
-  fontFamily: 'SimSun, Microsoft YaHei, serif',
+  fontFamily: "'Noto Sans CJK SC', 'Noto Serif CJK SC'",
 };
 
 export const TYPST_PARAMS = {

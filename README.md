@@ -21,19 +21,16 @@ npm install cradic
 ```javascript
 import { from } from 'cradic';
 
-// Generate HTML
-const html = await from('汉字测试').to('html').toString();
+// Generate html and output to console
+from('一个简单的汉字结构拆解测试').to('html').log();
 
-// Generate SVG
-const svg = await from('汉字').to('svg').toString();
-
-// Plain text (simple replacement)
-const text = await from('汉字').to('text').toString();
-// "亠土山乚"
-
-// Typst for typography
-const typ = await from('汉字').to('typ').toString();
+// Generate plain text
+from('一个简单的汉字结构拆解测试').to('text').log();
+//  -> '一人丨⺮间单白勺氵又宀子纟吉木勾扌斥解氵则讠式'
 ```
+
+![HTML render example](docs/figures/html_render_example.jpg)
+
 
 ## API
 
@@ -69,15 +66,13 @@ There is one **universal** parameter:
 - `mode` (`'b'`|`'h'`|`'v'`) – Controls which split directions are used. Default `'b'` (both).
 
 ```javascript
-let text;
-
 // Only horizontal splits
-text = await from('汉字').to('text').with({ mode: 'h' }).toString();
-// -> "氵又字"
+from('汉字').to('text').with({ mode: 'h' }).toString();
+// -> '氵又字'
 
 // Only vertical splits
-const text = await from('汉字').to('text').with({ mode: 'v' }).toString();
-// -> "汉宀子"
+from('汉字').to('text').with({ mode: 'v' }).toString();
+// -> '汉宀子'
 ```
 
 For a full list of parameters (HTML, SVG, Typst) see **[docs/params.md](./docs/params.md)**.
@@ -128,7 +123,7 @@ import { from } from 'cradic';
 await from('汉字').to('html').saveAs('output.html');
 ```
 
-## Image Generation (Node.js only)
+## Binary Files Generation (Node.js only)
 
 Requires external tools:
 
@@ -143,13 +138,12 @@ await from('汉字').to('pdf').saveAs('output.pdf');
 ## Build
 
 ```bash
-npm run build     # Build CJS and ESM
+npm run build  # Build CJS and ESM
 npm run build:browser  # Browser build
 ```
 
 ## License
 
 The source code of this project is released under the MIT License.  
-The data in `h.json` and `v.json` is partly sourced from https://github.com/kfcd/chaizi and is licensed under **CC BY 3.0**.
+The data in `h.json` and `v.json` is partly sourced from (https://github.com/kfcd/chaizi) and is licensed under **CC BY 3.0**.
 ```
-
