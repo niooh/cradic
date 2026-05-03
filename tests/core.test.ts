@@ -28,52 +28,52 @@ describe('Cradic', () => {
 
   describe('to()', () => {
     it('sets output type to html', async () => {
-      const html = await from('一').to('html').toString();
+      const html = await from('一').to('html').toStr();
       expect(html).toContain('<!DOCTYPE html>');
     });
 
     it('sets output type to svg', async () => {
-      const svg = await from('一').to('svg').toString();
+      const svg = await from('一').to('svg').toStr();
       expect(svg).toMatch(/^<svg/);
     });
 
     it('sets output type to text (splits char by default)', async () => {
-      const text = await from('字').to('text').toString();
+      const text = await from('字').to('text').toStr();
       expect(text).toBe('宀子');
     });
 
     it('sets output type to typ', async () => {
-      const typ = await from('一').to('typ').toString();
+      const typ = await from('一').to('typ').toStr();
       expect(typ).toContain('#set page');
     });
 
     it('accepts type aliases', async () => {
-      const text = await from('字').to('txt').toString();
+      const text = await from('字').to('txt').toStr();
       expect(text).toBe('宀子');
     });
   });
 
   describe('with()', () => {
     it('applies custom params for html', async () => {
-      const html = await from('字').to('html').with({ boxWidth: 100 }).toString();
+      const html = await from('字').to('html').with({ boxWidth: 100 }).toStr();
       expect(html).toContain('width: 100px');
     });
 
     it('applies custom params for text', async () => {
-      const text = await from('汉').to('text').with({ mode: 'h' }).toString();
+      const text = await from('汉').to('text').with({ mode: 'h' }).toStr();
       expect(text).toBe('氵又');
     });
   });
 
-  describe('toString()', () => {
+  describe('toStr()', () => {
     it('returns string for html output', async () => {
-      const html = await from('字').to('html').toString();
+      const html = await from('字').to('html').toStr();
       expect(typeof html).toBe('string');
       expect(html).toContain('box');
     });
 
     it('returns string for text output', async () => {
-      const text = await from('字').to('text').toString();
+      const text = await from('字').to('text').toStr();
       expect(typeof text).toBe('string');
     });
   });
@@ -100,7 +100,7 @@ describe('Cradic', () => {
 
   describe('Default behavior', () => {
     it('default output is html', async () => {
-      const html = await from('字').toString();
+      const html = await from('字').toStr();
       expect(html).toContain('<!DOCTYPE html>');
     });
   });

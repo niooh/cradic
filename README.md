@@ -1,11 +1,15 @@
 # Cradic
 
+<p align="center">
+  English | <a href="./docs/zh-CN/README.md">简体中文</a>
+</p>
+
 A library that deconstructs Chinese characters into radicals and reassembles them for intriguing visual effects.  
 cradic ≈ chinese radical
 
-[中文文档](./docs/zh-CN/README.md)
+## Installation
 
-```
+```bash
 npm install cradic
 ```
 
@@ -14,7 +18,6 @@ npm install cradic
 - **Multi‑format output**: HTML, SVG, Typst, Plain text
 - **Chainable API**: Fluent interface for configuration
 - **Browser + Node.js**: Works in both environments
-- **Customizable**: Flexible parameter system
 
 ## Quick Start
 
@@ -34,9 +37,9 @@ from('一个简单的汉字结构拆解测试').to('text').log();
 
 ## API
 
-### `from(text)`
+### `from(string)`
 
-Create a Cradic instance with input text.
+Create a Cradic instance with input string.
 
 ```javascript
 const cr = from('汉字');
@@ -64,12 +67,11 @@ Override default parameters. Parameters are merged with the defaults of the chos
 - `sep` – Separator for text output (only works with `.to('text')`). Use `'auto'` for smart separator: two newlines before vertically-split characters, space before others.
 
 ```javascript
-from('汉字').to('text').with({ mode: 'h' }).toString();  // '氵又字'
-from('汉字').to('text').with({ sep: ' ' }).toString();   // '氵又 宀子'
-from('一个').to('text').with({ sep: 'auto' }).toString(); // '氵又\n\n宀子'
+from('汉字').to('text').with({ mode: 'h' }).log();  // '氵又字'
+from('汉字').to('text').with({ sep: ' ' }).log();   // '氵又 宀子'
 ```
 
-For a full list of type-specific parameters (cell size, colors, fonts, etc.), see **[docs/params.md](./docs/params.md)**.
+For a full list of type-specific parameters (cell size, colors, fonts, etc.), see [docs/params.md](./docs/params.md).
 
 ### `.log()`
 
@@ -90,12 +92,12 @@ Save to file.
 await from('汉字').to('html').saveAs('output.html');
 ```
 
-### `.toString()`
+### `.toStr()`
 
-Get output as string.
+Get output as string. This method returns a `Promise<string>`, so please use `await`.
 
 ```javascript
-const html = await from('汉字').to('html').toString();
+const html = await from('汉字').to('html').toStr();
 ```
 
 ## Browser Usage
@@ -104,7 +106,7 @@ const html = await from('汉字').to('html').toString();
 <script type="module">
   import { from } from './cradic.browser.js';
 
-  const html = await from('汉字').to('html').toString();
+  const html = await from('汉字').to('html').toStr();
   document.body.innerHTML = html;
 </script>
 ```
@@ -116,6 +118,8 @@ import { from } from 'cradic';
 
 await from('汉字').to('html').saveAs('output.html');
 ```
+
+You can also check [tests/demos](./tests/demos/).
 
 ## Binary Files Generation (Node.js only)
 
@@ -132,12 +136,11 @@ await from('汉字').to('pdf').saveAs('output.pdf');
 ## Build
 
 ```bash
-npm run build  # Build CJS and ESM
-npm run build:browser  # Browser build
+npm run build:node  # Build for nodejs
+npm run build:browser  # Build for browser
 ```
 
 ## License
 
 The source code of this project is released under the MIT License.  
-The data in `h.json` and `v.json` is partly sourced from (https://github.com/kfcd/chaizi) and is licensed under **CC BY 3.0**.
-```
+The data in `assets/h.json` and `assets/v.json` is partly sourced from (https://github.com/kfcd/chaizi) and is licensed under **CC BY 3.0**.

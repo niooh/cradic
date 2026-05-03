@@ -55,33 +55,28 @@ from('汉字').to('html').with({
   boxHeight: 80,
   showBoxBorder: true,
   boxBorderColor: '#ddd',
-}).toString();
+}).log();
 // Returns HTML string with custom cell sizes and border
 ```
 
 
 ## Text Parameters
 
-Only works when using `.to('text')`.
-
 | Parameter | Default | Description |
 |-----------|---------|------------|
-| `sep` | `''` | Separator between characters in output. Use `'auto'` for smart separator: two newlines before vertically-split characters, space before others. |
+| `sep` | `''` | Separator between characters in output. Use `'auto'` for smart separator. |
 
 Example:
 ```javascript
-from('汉字').to('text').with({ sep: ' ' }).toString();
+from('汉字').to('text').with({ sep: ' ' }).log();
 // -> '氵又 宀子'
 
-from('一个').to('text').with({ sep: 'auto' }).toString();
-// -> '氵又\n\n宀子'
+from('一个').to('text').with({ sep: 'auto' }).log();
+// -> '一\n\n人\n丨'
 ```
 
 
-
 ## SVG Parameters
-
-Only works when using `.to('svg')`.
 
 | Parameter | Default | Description |
 |-----------|---------|------------|
@@ -109,13 +104,10 @@ from('汉字').to('svg').with({
   cols: 4,
   boxWidth: 50,
   boxGapH: 2,
-}).toString();
-// Returns SVG with 4 columns and custom sizing
+}).log();
 ```
 
 ## Typst Parameters
-
-Only works when using `.to('typ')`.
 
 | Parameter | Default | Description |
 |-----------|---------|------------|
@@ -135,6 +127,5 @@ from('汉字').to('typ').with({
   boxSize: 50,
   cols: 4,
   fontSize: 24,
-}).toString();
-// Returns Typst code with custom cell size and columns
+}).log();
 ```

@@ -141,7 +141,7 @@ export class Cradic {
     }
   }
 
-  async toString(): Promise<string> {
+  async toStr(): Promise<string> {
     const content = await this.generate();
     if (isBufferLike(content)) {
       throw new Error(

@@ -5,30 +5,41 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cradic Demo</title>
   <style>
-    body { font-family: system-ui; padding: 20px; }
-    input { padding: 8px; font-size: 16px; width: 200px; }
-    button { padding: 8px 16px; font-size: 16px; cursor: pointer; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui; padding: 20px; font-size: 18px; }
+    #input, #generate, #download { height: 36px; padding: 0 12px; font-size: 16px; vertical-align: middle; margin-right: 8px; }
+    #input { width: 60%; }
+    button { cursor: pointer; }
     #output { margin-top: 20px; }
   </style>
 </head>
 <body>
-  <h1>Cradic Demo</h1>
   <input id="input" value="汉字测试" placeholder="输入汉字">
   <button id="generate">生成</button>
+  <button id="download">下载</button>
   <div id="output"></div>
+
   <script type="module">
     import { from } from '../../dist/cradic.browser.js';
 
     const input = document.getElementById('input');
     const generate = document.getElementById('generate');
+    const download = document.getElementById('download');
     const output = document.getElementById('output');
 
     generate.addEventListener('click', async () => {
       const text = input.value;
-      const html = await from(text).to('html').toString();
+      const html = await from(text).to('html').toStr();
       output.innerHTML = html;
     });
 
+    download.addEventListener('click', async () => {
+      const text = input.value;
+      // 调用 saveAs API
+      await from(text).to("html").saveAs("new.html");
+    });
+
+    input.addEventListener('keydown', e => e.key === 'Enter' && generate.click());
     generate.click();
   </script>
 </body>

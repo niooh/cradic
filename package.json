@@ -20,7 +20,8 @@
     "prepublishOnly": "rm -rf dist/tmp && npm run build",
     "dev": "vite",
     "test": "vitest run",
-    "demo": "node tests/demos/demo1.js && node tests/demos/demo2.js"
+    "demo": "node tests/demos/demo1.js && node tests/demos/demo2.js",
+    "demo:browser": "node tests/demos/server.js"    
   },
   "exports": {
     ".": {
@@ -45,14 +46,10 @@
     "vitest": "^4.1.5"
   },
   "keywords": [
-    "chinese",
-    "character",
-    "radical",
-    "deconstruct",
-    "reassemble",
-    "visualization",
-    "split",
-    "typography"
+    "chinese", "character",
+    "radical", "deconstruct",
+    "reassemble", "visualization",
+    "split", "typography", "拆字"
   ],
   "author": "ldlsn1",
   "license": "MIT"

@@ -6,22 +6,22 @@
 
 `mode`（默认 `'b'`）– 控制拆分方向，适用于所有输出类型。
 
-- `'b'`：同时使用水平和垂直拆分
-- `'h'`：仅水平拆分（如“汉” → “氵又”，“字”保持不变）
-- `'v'`：仅垂直拆分（如“字” → “宀子”，“汉”保持不变）
+- `'b'`：同时（both）使用水平和垂直拆分
+- `'h'`：仅水平（horizontal）拆分，如 “汉” -> “氵又”，“字”保持不变
+- `'v'`：仅垂直（verticalal）拆分，如 “字” -> “宀子”，“汉”保持不变
 
 示例：
 ```javascript
-// 双向拆分
-from('汉字').to('text').with({ mode: 'b' }).toString();
+// 双向拆分（默认）
+from('汉字').to('text').with({ mode: 'b' }).log();
 // -> '氵又宀子'
 
 // 仅水平拆分
-from('汉字').to('text').with({ mode: 'h' }).toString();
+from('汉字').to('text').with({ mode: 'h' }).log();
 // -> '氵又字'
 
 // 仅垂直拆分
-from('汉字').to('text').with({ mode: 'v' }).toString();
+from('汉字').to('text').with({ mode: 'v' }).log();
 // -> '汉宀子'
 ```
 
@@ -55,13 +55,10 @@ from('汉字').to('html').with({
   boxHeight: 80,
   showBoxBorder: true,
   boxBorderColor: '#ddd',
-}).toString();
-// 返回自定义单元格大小和边框的 HTML 字符串
+}).log();
 ```
 
 ## SVG 参数
-
-仅在 `.to('svg')` 时有效。
 
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
@@ -89,13 +86,10 @@ from('汉字').to('svg').with({
   cols: 4,
   boxWidth: 50,
   boxGapH: 2,
-}).toString();
-// 返回自定义列数和大小的 SVG 字符串
+}).log();
 ```
 
 ## Typst 参数
-
-仅在 `.to('typ')` 时有效。
 
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
@@ -115,23 +109,21 @@ from('汉字').to('typ').with({
   boxSize: 50,
   cols: 4,
   fontSize: 24,
-}).toString();
+}).log();
 // 返回自定义单元格大小和列数的 Typst 代码
 ```
 
 ## 纯文本参数
 
-仅在 `.to('text')` 时有效。
-
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
-| `sep` | `''` | 输出字符之间的分隔符。使用 `'auto'` 会智能分隔：垂直拆分前加两个换行符，其他加空格。 |
+| `sep` | `''` | 输出字符之间的分隔符。使用 `'auto'` 则智能分隔。 |
 
 示例：
 ```javascript
-from('汉字').to('text').with({ sep: ' ' }).toString();
-// -> '氵又 宀子'
+from('一个').to('text').with({ sep: ' ' }).log();
+// -> '一 人丨'
 
-from('一个').to('text').with({ sep: 'auto' }).toString();
-// -> '氵又\n\n宀子'
+from('一个').to('text').with({ sep: 'auto' }).log();
+// -> '一\n\n人\n丨'
 ```

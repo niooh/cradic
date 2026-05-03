@@ -38,6 +38,5 @@ export function renderText(text: string, params?: Record<string, any>): string {
   if (typeof sep === 'string') {
     return mapped.join(sep);
   }
-  // 兜底
   return mapped.join('');
 }
