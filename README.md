@@ -46,36 +46,30 @@ const cr = from('汉字');
 
 Set output format. Default is `html`.
 
-- `html` – HTML document with CSS (recommend)
+- `html` – HTML document with CSS (recommended)
 - `svg` – SVG grid layout
 - `typ` – Typst document
-- `text` – Plain text split replacement
-- `png` / `jpg` / `pdf` – Binart files (Node.js only, requires external tools)
+- `text` – Plain text with radical replacements
+- `png` / `jpg` / `pdf` – Binary files (Node.js only, requires external tools)
 
 ```javascript
-from('汉字').to('html')
+from('汉字').to('svg')
 ```
 
 ### `.with(params)`
 
-Override default parameters.  
-Parameters are merged with the defaults of the chosen output type.  
+Override default parameters. Parameters are merged with the defaults of the chosen output type (set by `.to()`).
 
-There is one **universal** parameter:
-
-- `mode` (`'b'`|`'h'`|`'v'`) – Controls which split directions are used. Default `'b'` (both).
+- `mode` (`'b'`|`'h'`|`'v'`) – Controls split directions (works for all types). Default `'b'`.
+- `sep` – Separator for text output (only works with `.to('text')`). Use `'auto'` for smart separator: two newlines before vertically-split characters, space before others.
 
 ```javascript
-// Only horizontal splits
-from('汉字').to('text').with({ mode: 'h' }).toString();
-// -> '氵又字'
-
-// Only vertical splits
-from('汉字').to('text').with({ mode: 'v' }).toString();
-// -> '汉宀子'
+from('汉字').to('text').with({ mode: 'h' }).toString();  // '氵又字'
+from('汉字').to('text').with({ sep: ' ' }).toString();   // '氵又 宀子'
+from('一个').to('text').with({ sep: 'auto' }).toString(); // '氵又\n\n宀子'
 ```
 
-For a full list of parameters (HTML, SVG, Typst) see **[docs/params.md](./docs/params.md)**.
+For a full list of type-specific parameters (cell size, colors, fonts, etc.), see **[docs/params.md](./docs/params.md)**.
 
 ### `.log()`
 

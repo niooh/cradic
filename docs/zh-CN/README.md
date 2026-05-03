@@ -35,6 +35,9 @@ const text = await from('主乢').to('text').toString();
 const typ = await from('汉字').to('typ').toString();
 ```
 
+![HTML渲染示例](../figures/html_render_example.jpg)
+
+
 ## API
 
 ### `from(text)`
@@ -61,25 +64,18 @@ from('汉字').to('svg')
 
 ### `.with(params)`
 
-覆盖默认参数。参数会与所选输出类型的默认值合并。
+覆盖默认参数。参数会与所选输出类型（由 `.to()` 决定）的默认值合并。
 
-其中有一个**通用**参数：
-
-- `mode`（`'b'`|`'h'`|`'v'`）– 控制使用的拆分方向。默认为 `'b'`（双向）。
+- `mode`（`'b'`|`'h'`|`'v'`）– 控制拆分方向（适用于所有类型）。默认为 `'b'`。
+- `sep` – 纯文本输出时的分隔符（仅在 `.to('text')` 时有效）。使用 `'auto'` 会智能分隔：垂直拆分前加两个换行符，其他加空格。
 
 ```javascript
-let text;
-
-// 仅水平拆分
-text = await from('汉字').to('text').with({ mode: 'h' }).toString();
-// -> "氵又宀子"
-
-// 仅垂直拆分
-const text = await from('汉字').to('text').with({ mode: 'v' }).toString();
-// -> "汉宀子"
+from('汉字').to('text').with({ mode: 'h' }).toString();  // '氵又字'
+from('汉字').to('text').with({ sep: ' ' }).toString();   // '氵又 宀子'
+from('一个').to('text').with({ sep: 'auto' }).toString(); // '氵又\n\n宀子'
 ```
 
-完整的参数列表（HTML、SVG、Typst）请查阅 **[params.md](./params.md)**。
+完整参数列表（单元格大小、颜色、字体等）请查阅 **[params.md](./params.md)**。
 
 ### `.log()`
 

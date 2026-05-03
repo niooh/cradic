@@ -1,5 +1,6 @@
 import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
+import terser from '@rollup/plugin-terser';
 import { resolve } from 'path';
 
 export default {
@@ -22,6 +23,7 @@ export default {
   plugins: [
     json(),
     typescript({ tsconfig: './tsconfig.json' }),
+    terser(),
    ],
   external: ['fs/promises', 'fs', 'path', 'child_process', 'os', 'buffer'],
 };

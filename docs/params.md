@@ -1,5 +1,7 @@
 # Cradic – Parameters
 
+Parameters are divided into **universal** (work with any `.to()` type) and **type-specific** (only work with certain output formats). Type-specific parameters must be set AFTER calling `.to()`.
+
 ## Common Parameter
 
 `mode` (default `'b'`) – Controls split direction. Applies to **all** output types.
@@ -48,19 +50,38 @@ from('汉字').to('text').with({ mode: 'v' }).log();
 
 Example:
 ```javascript
-from('汉字').to('text').with({
-  boxWidth: 60,
-  boxHeight: 60,
+from('汉字').to('html').with({
+  boxWidth: 80,
+  boxHeight: 80,
   showBoxBorder: true,
-}).log();
+  boxBorderColor: '#ddd',
+}).toString();
+// Returns HTML string with custom cell sizes and border
 ```
 
 
 ## Text Parameters
 
+Only works when using `.to('text')`.
+
+| Parameter | Default | Description |
+|-----------|---------|------------|
+| `sep` | `''` | Separator between characters in output. Use `'auto'` for smart separator: two newlines before vertically-split characters, space before others. |
+
+Example:
+```javascript
+from('汉字').to('text').with({ sep: ' ' }).toString();
+// -> '氵又 宀子'
+
+from('一个').to('text').with({ sep: 'auto' }).toString();
+// -> '氵又\n\n宀子'
+```
+
 
 
 ## SVG Parameters
+
+Only works when using `.to('svg')`.
 
 | Parameter | Default | Description |
 |-----------|---------|------------|
@@ -82,7 +103,19 @@ from('汉字').to('text').with({
 | `vBottomOffsetY` | -6 | Bottom offset (px) |
 | `fontFamily` | "'Noto Sans CJK SC', 'Noto Serif CJK SC'" | Font family |
 
+Example:
+```javascript
+from('汉字').to('svg').with({
+  cols: 4,
+  boxWidth: 50,
+  boxGapH: 2,
+}).toString();
+// Returns SVG with 4 columns and custom sizing
+```
+
 ## Typst Parameters
+
+Only works when using `.to('typ')`.
 
 | Parameter | Default | Description |
 |-----------|---------|------------|
@@ -95,3 +128,13 @@ from('汉字').to('text').with({
 | `hTightness` | -4 | Horizontal tightness (pt) |
 | `vTightness` | -2 | Vertical tightness (pt) |
 | `stroke` | '0.5pt + gray' | Cell border stroke |
+
+Example:
+```javascript
+from('汉字').to('typ').with({
+  boxSize: 50,
+  cols: 4,
+  fontSize: 24,
+}).toString();
+// Returns Typst code with custom cell size and columns
+```
