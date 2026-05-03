@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import terser from 'terser';
 
 export default defineConfig({
   build: {
@@ -13,6 +14,12 @@ export default defineConfig({
       output: {
         globals: {},
         inlineDynamicImports: true,
+      },
+    },
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
       },
     },
   },
