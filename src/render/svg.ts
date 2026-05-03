@@ -41,7 +41,7 @@ function getCharSvgItem(
     : '';
 
   const baseFontSize = p.boxHeight * p.partScale;
-  const commonAttr = `font-family="SimSun, Microsoft YaHei, serif" font-size="${baseFontSize}px" text-anchor="middle" dominant-baseline="central" fill="#000"`;
+  const commonAttr = `font-family="${p.fontFamily}" font-size="${baseFontSize}px" text-anchor="middle" dominant-baseline="central" fill="#000"`;
 
   if (!hSplitMap[char] && !vSplitMap[char]) {
     return `${rect}<text x="${centerX}" y="${centerY}" ${commonAttr}>${char}</text>`;

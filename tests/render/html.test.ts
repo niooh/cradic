@@ -38,6 +38,11 @@ describe('renderHtml', () => {
     expect(html).toContain('font-weight: 700');
   });
 
+  it('applies custom fontFamily', async () => {
+    const html = await from('字').to('html').with({ fontFamily: 'Arial, sans-serif' }).toString();
+    expect(html).toContain('font-family: Arial, sans-serif');
+  });
+
   it('handles multiple characters', async () => {
     const html = await from('一二三').to('html').toString();
     expect(html).toContain('class="split-char');

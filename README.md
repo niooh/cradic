@@ -49,14 +49,14 @@ const cr = from('汉字');
 
 Set output format. Default is `html`.
 
-- `html` – HTML document with CSS
+- `html` – HTML document with CSS (recommend)
 - `svg` – SVG grid layout
 - `typ` – Typst document
 - `text` – Plain text split replacement
-- `png` / `jpg` / `pdf` – Image (Node.js only, requires external tools)
+- `png` / `jpg` / `pdf` – Binart files (Node.js only, requires external tools)
 
 ```javascript
-from('汉字').to('svg')
+from('汉字').to('html')
 ```
 
 ### `.with(params)`
@@ -69,16 +69,22 @@ There is one **universal** parameter:
 - `mode` (`'b'`|`'h'`|`'v'`) – Controls which split directions are used. Default `'b'` (both).
 
 ```javascript
+let text;
+
 // Only horizontal splits
-const text = await from('汉字').to('text').with({ mode: 'h' }).toString();
-// -> "氵又宀子"
+text = await from('汉字').to('text').with({ mode: 'h' }).toString();
+// -> "氵又字"
+
+// Only vertical splits
+const text = await from('汉字').to('text').with({ mode: 'v' }).toString();
+// -> "汉宀子"
 ```
 
 For a full list of parameters (HTML, SVG, Typst) see **[docs/params.md](./docs/params.md)**.
 
 ### `.log()`
 
-Print output to console. Returns `this` for chaining.
+Print output to console.
 
 ```javascript
 from('汉字').to('html').log();

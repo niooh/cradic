@@ -32,6 +32,7 @@ from('汉字').to('text').with({ mode: 'h' }).toString()
 | `hRightOffsetX` | -0.3 | Right offset (em) |
 | `vTopOffsetY` | 0.5 | Top offset (em) |
 | `vBottomOffsetY` | -0.5 | Bottom offset (em) |
+| `fontFamily` | "'SimSun', 'Microsoft YaHei', sans-serif" | Font family |
 | `fontWeight` | 380 | Font weight for parts |
 | `textStroke` | '1px' | Text stroke |
 | `textStrokeColor` | '#000' | Stroke color |
@@ -56,6 +57,7 @@ from('汉字').to('text').with({ mode: 'h' }).toString()
 | `hRightOffsetX` | -2 | Right offset (px) |
 | `vTopOffsetY` | 6 | Top offset (px) |
 | `vBottomOffsetY` | -6 | Bottom offset (px) |
+| `fontFamily` | 'SimSun, Microsoft YaHei, serif' | Font family |
 
 ## Typst Parameters
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cradic Demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; padding: 20px; }
+    input { padding: 8px; font-size: 16px; width: 200px; }
+    button { padding: 8px 16px; font-size: 16px; cursor: pointer; }
+    #output { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Cradic Demo</h1>
+  <input id="input" value="汉字测试" placeholder="输入汉字">
+  <button id="generate">生成</button>
+  <div id="output"></div>
+  <script type="module">
+    import { from } from '../dist/cradic.browser.js';
+
+    const input = document.getElementById('input');
+    const generate = document.getElementById('generate');
+    const output = document.getElementById('output');
+
+    generate.addEventListener('click', async () => {
+      const text = input.value;
+      const html = await from(text).to('html').toString();
+      output.innerHTML = html;
+    });
+
+    generate.click();
+  </script>
+</body>
+</html>

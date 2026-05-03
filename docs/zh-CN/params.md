@@ -32,6 +32,7 @@ from('汉字').to('text').with({ mode: 'h' }).toString()
 | `hRightOffsetX` | -0.3 | 右偏移 (em) |
 | `vTopOffsetY` | 0.5 | 上偏移 (em) |
 | `vBottomOffsetY` | -0.5 | 下偏移 (em) |
+| `fontFamily` | "'SimSun', 'Microsoft YaHei', sans-serif" | 字体 |
 | `fontWeight` | 380 | 部件字体粗细 |
 | `textStroke` | '1px' | 文字描边 |
 | `textStrokeColor` | '#000' | 描边颜色 |
@@ -56,6 +57,7 @@ from('汉字').to('text').with({ mode: 'h' }).toString()
 | `hRightOffsetX` | -2 | 右偏移 (px) |
 | `vTopOffsetY` | 6 | 上偏移 (px) |
 | `vBottomOffsetY` | -6 | 下偏移 (px) |
+| `fontFamily` | 'SimSun, Microsoft YaHei, serif' | 字体 |
 
 ## Typst 参数
 

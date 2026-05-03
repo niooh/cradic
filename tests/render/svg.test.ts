@@ -35,6 +35,11 @@ describe('renderSvg', () => {
     expect(svg).toContain('translate(30, 39)');
   });
 
+  it('applies custom fontFamily', async () => {
+    const svg = await from('字').to('svg').with({ fontFamily: 'Times New Roman, serif' }).toString();
+    expect(svg).toContain('font-family="Times New Roman, serif"');
+  });
+
   it('handles both split modes (h for Han, v for Zi)', async () => {
     const hSvg = await from('汉').to('svg').with({ mode: 'b' }).toString();
     expect(hSvg).toContain('氵');

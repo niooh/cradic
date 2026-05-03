@@ -28,7 +28,7 @@ function generateCSS(p: Record<string, any>, useH: boolean, useV: boolean): stri
 
   let css = `\
     body {
-      font-family: 'SimSun', 'Microsoft YaHei', sans-serif;
+      font-family: ${p.fontFamily};
       font-size: 32px;
       padding: 40px;
       line-height: 1.8;

@@ -1,6 +1,6 @@
 # Cradic
 
-汉字偏旁拆分重组。将汉字简单拆解为偏旁部首，再重新拼合，形成有趣的视觉效果。  
+汉字偏旁拆分重组工具。将汉字简单拆解为偏旁部首，再重新拼合，形成有趣的视觉效果。  
 (cradic ≈ chinese radical)
 
 [English Version](../../README.md)
@@ -22,7 +22,7 @@ npm install cradic
 import { from } from 'cradic';
 
 // 生成 HTML
-const html = await from('主测试乢汉字').to('html').toString();
+const html = await from('汉字测试').to('html').toString();
 
 // 生成 SVG
 const svg = await from('汉字').to('svg').toString();
@@ -68,9 +68,15 @@ from('汉字').to('svg')
 - `mode`（`'b'`|`'h'`|`'v'`）– 控制使用的拆分方向。默认为 `'b'`（双向）。
 
 ```javascript
+let text;
+
 // 仅水平拆分
-const text = await from('汉字').to('text').with({ mode: 'h' }).toString();
-// '氵又字'
+text = await from('汉字').to('text').with({ mode: 'h' }).toString();
+// -> "氵又宀子"
+
+// 仅垂直拆分
+const text = await from('汉字').to('text').with({ mode: 'v' }).toString();
+// -> "汉宀子"
 ```
 
 完整的参数列表（HTML、SVG、Typst）请查阅 **[params.md](./params.md)**。

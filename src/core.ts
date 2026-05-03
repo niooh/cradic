@@ -18,6 +18,10 @@ function getMimeType(type: OutputType): string {
   }
 }
 
+function isBufferLike(obj: any): boolean {
+  return isNodeEnv() && obj && typeof obj === 'object' && obj.constructor && obj.constructor.isBuffer?.(obj);
+}
+
 export class Cradic {
   private text: string;
   private outputType: OutputType = 'html';
@@ -86,10 +90,10 @@ export class Cradic {
 
   log(): this {
     this.generate().then((content) => {
-      // 对于二进制文件，打印文件信息而不是内容
-      if (Buffer.isBuffer(content)) {
+      if (isBufferLike(content)) {
+        const buf = content as unknown as Buffer;
         console.log(
-          `[${this.outputType.toUpperCase()}] Generated binary data (${content.length} bytes)`
+          `[${this.outputType.toUpperCase()}] Generated binary data (${buf.length} bytes)`
         );
       } else {
         console.log(content);
@@ -104,11 +108,10 @@ export class Cradic {
     if (isNodeEnv()) {
       const { saveFile, saveBinaryFile } = await import('./node/fs');
 
-      // 直接判断 Buffer 类型，不需要检查 outputType
-      if (Buffer.isBuffer(content)) {
-        await saveBinaryFile(filename, content);
+      if (isBufferLike(content)) {
+        await saveBinaryFile(filename, content as unknown as Buffer);
       } else {
-        await saveFile(filename, content);
+        await saveFile(filename, content as string);
       }
     } else if (isBrowserEnv()) {
       const mimeType = getMimeType(this.outputType);
@@ -140,13 +143,13 @@ export class Cradic {
 
   async toString(): Promise<string> {
     const content = await this.generate();
-    if (Buffer.isBuffer(content)) {
+    if (isBufferLike(content)) {
       throw new Error(
         `Cannot convert binary data (${this.outputType}) to string. ` +
         `Use saveAs() to save to file instead.`
       );
     }
-    return content;
+    return content as string;
   }
 }
 
