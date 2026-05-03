@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-import terser from 'terser';
 
 export default defineConfig({
   build: {
@@ -16,12 +15,7 @@ export default defineConfig({
         codeSplitting: false // vite8 config
       },
     },
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-      },
-    },
+    minify: 'esbuild',
   },
   resolve: {
     alias: {

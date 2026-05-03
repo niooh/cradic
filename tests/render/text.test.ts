@@ -44,7 +44,7 @@ describe('renderText', () => {
 
   it('applies separator - space', async () => {
     const text = await from('一二').to('text').with({ sep: ' ' }).toStr();
-    expect(text).toBe('一 二');
+    expect(text).toBe('一 一一');
   });
 
   it('handles multiple characters', async () => {

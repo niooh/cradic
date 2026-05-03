@@ -4,8 +4,9 @@
   <a href="../../README.md">English</a> | 简体中文
 </p>
 
-汉字偏旁拆分重组工具。将汉字简单拆解为偏旁部首，再重新拼合，形成有趣的视觉效果。  
-(cradic ≈ chinese radical)
+汉字偏旁拆分重组工具。将汉字简单拆解为偏旁部首，再重新拼合，形成有趣的视觉效果。
+  
+**cradic** ≈ **c**hinese **radical**
 
 ## 安装
 ```bash

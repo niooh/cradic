@@ -5,7 +5,8 @@
 </p>
 
 A library that deconstructs Chinese characters into radicals and reassembles them for intriguing visual effects.  
-cradic ≈ chinese radical
+
+**cradic** ≈ **c**hinese **radical**
 
 ## Installation
 

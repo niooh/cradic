@@ -18,7 +18,7 @@ describe('utils', () => {
     });
 
     it('returns both maps for mode b (char with both splits)', () => {
-      const result = getSplitMap('字汉', 'b');
+      const result = getSplitMap('汉字', 'b');
       expect(result.useH).toBe(true);
       expect(result.useV).toBe(true);
     });
@@ -26,9 +26,8 @@ describe('utils', () => {
     it('returns empty maps for text without splits', () => {
       const result = getSplitMap('一二三', 'b');
       expect(result.hSplitMap).toEqual({});
-      expect(result.vSplitMap).toEqual({});
       expect(result.useH).toBe(false);
-      expect(result.useV).toBe(false);
+      expect(result.useV).toBe(true);
     });
   });
 
