@@ -7,8 +7,8 @@ Parameters are divided into **universal** (work with any `.to()` type) and **typ
 `mode` (default `'b'`) – Controls split direction. Applies to **all** output types.
 
 - `'b'`: Both horizontal and vertical splits
-- `'h'`: Only horizontal splits (e.g., 汉 → 氵又, 字 stays as 字)
-- `'v'`: Only vertical splits (e.g., 字 → 宀子, 汉 stays as 汉)
+- `'h'`: Only horizontal splits，e.g., 汉 -> 氵又, 字 -> 字
+- `'v'`: Only vertical splits, e.g., 字 -> 宀子, 汉 -> 汉
 
 Example:
 ```javascript
@@ -56,7 +56,6 @@ from('汉字').to('html').with({
   showBoxBorder: true,
   boxBorderColor: '#ddd',
 }).log();
-// Returns HTML string with custom cell sizes and border
 ```
 
 

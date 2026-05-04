@@ -24,20 +24,13 @@ npm install cradic
 ```javascript
 import { from } from 'cradic';
 
-// 生成 HTML
-from('汉字测试').to('html').log();
+// 生成 html 并保存文件
+from('一个简单的汉字结构拆解测试').to('html').saveAs('output.html');
 
-// 生成 SVG
-from('汉字').to('svg').log();
-
-// 纯文本
-from('主乢').to('text').log();
-// '亠土山乚'
-
-// Typst
-from('汉字').to('typ').log();
+// 生成文本并输出到控制台
+from('一个简单的汉字结构拆解测试').to('text').log();
+// -> '一人丨⺮间单白勺氵又宀子纟吉木勾扌斥解氵则讠式'
 ```
-
 ![HTML渲染示例](../figures/html_render_example.jpg)
 
 
@@ -75,7 +68,6 @@ from('汉字').to('svg')
 ```javascript
 from('汉字').to('text').with({ mode: 'h' }).log();  // '氵又字'
 from('汉字').to('text').with({ sep: ' ' }).log();   // '氵又 宀子'
-from('一个').to('text').with({ sep: 'auto' }).log(); // '氵又\n\n宀子'
 ```
 
 完整参数列表（单元格大小、颜色、字体等）请查阅 [params.md](./params.md)。
@@ -92,7 +84,7 @@ from('汉字').to('html').log();
 
 保存到文件。
 
-- **Node.js**：写入文件系统
+- **Node.js**：写入本地文件
 - **浏览器**：触发下载
 
 ```javascript
@@ -149,5 +141,5 @@ npm run build:browser  # 为浏览器构建
 
 ## 许可证
 
-本项目源代码采用 MIT 协议开源。
-`assets/h.json`、`assets/v.json` 部分数据来源于 [漢語拆字字典](https://github.com/kfcd/chaizi)，该部分数据遵循 **CC BY 3.0** 协议。
+本项目源代码采用 **MIT** 协议开源。
+`assets/h.json`、`assets/v.json` 中部分数据来源于 [漢語拆字字典](https://github.com/kfcd/chaizi)，该数据遵循 **CC BY 3.0** 协议。
