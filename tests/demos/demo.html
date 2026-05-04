@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cradic Demo</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Noto Sans CJK SC', 'Noto Serif CJK SC', system-ui; padding: 10px; font-size: 20px; }
+    #input, #generate, #download { height: 40px; padding: 0 12px; vertical-align: middle; margin: 2px; }
+    #input { width: 60%; }
+    button { cursor: pointer; }
+    #output { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <input id="input" value="汉字测试" placeholder="输入汉字">
+  <button id="generate">🛠️</button>
+  <button id="download">📥</button>
+  <div id="output"></div>
+
+  <script type="module">
+    import { from } from '../../dist/cradic.browser.js';
+
+    const input = document.getElementById('input');
+    const generate = document.getElementById('generate');
+    const download = document.getElementById('download');
+    const output = document.getElementById('output');
+
+    generate.addEventListener('click', async () => {
+      const text = input.value;
+      const html = await from(text).to('html').toStr();
+      output.innerHTML = html;
+    });
+
+    download.addEventListener('click', async () => {
+      const text = input.value;
+      // 调用 saveAs API
+      await from(text).to("html").saveAs("new.html");
+    });
+
+    input.addEventListener('keydown', e => e.key === 'Enter' && generate.click());
+    generate.click();
+  </script>
+</body>
+</html>
