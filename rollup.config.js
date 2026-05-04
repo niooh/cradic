@@ -1,7 +1,5 @@
-import typescript from '@rollup/plugin-typescript';
 import json from '@rollup/plugin-json';
-import esbuild from 'rollup-plugin-esbuild';
-import { resolve } from 'path';
+import oxc from 'rollup-plugin-oxc';
 
 export default {
   input: 'src/index.ts',
@@ -22,8 +20,7 @@ export default {
   ],
   plugins: [
     json(),
-    typescript({ tsconfig: './tsconfig.json' }),
-    esbuild({
+    oxc({
       minify: true,
     }),
    ],

@@ -15,7 +15,7 @@ export default defineConfig({
         codeSplitting: false // vite8 config
       },
     },
-    minify: 'esbuild',
+    minify: 'oxc',
   },
   resolve: {
     alias: {
