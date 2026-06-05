@@ -34,7 +34,7 @@ from('一个简单的汉字结构拆解测试').to('text').log();
 
 你也可以直接访问 [在线演示](https://ldlsn1.github.io/repo/tests/demos/demo.html) 。
 
-![HTML渲染示例](../figures/html_render_example.jpg)
+![HTML渲染示例](../figures/html_render_example.avif)
 
 
 ## API

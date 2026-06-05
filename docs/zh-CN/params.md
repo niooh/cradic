@@ -96,6 +96,7 @@ from('汉字').to('svg').with({
 | `boxSize` | 40 | 单元格大小 (pt) |
 | `cols` | 6 | 网格列数 |
 | `boxGap` | 5 | 单元格间距 (pt) |
+| `fontFamily` | '"Noto Sans CJK SC"' | 字体 |
 | `fontSize` | 30 | 字体大小 (pt) |
 | `hScale` | 0.65 | 水平缩放 |
 | `vScale` | 0.65 | 垂直缩放 |

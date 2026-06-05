@@ -26,19 +26,18 @@ function generateCSS(p: Record<string, any>, useH: boolean, useV: boolean): stri
     ? `border: 1px solid ${p.boxBorderColor};`
     : 'border: none;';
 
-  let css = `\
-    body {
+  let css = `body {
       font-family: ${p.fontFamily};
       font-size: 32px;
       padding: 40px;
       line-height: 1.8;
-    }
+    }` +
 
-    #box {
+    `#box {
       letter-spacing: 0;
-    }
+    }` +
 
-    .split-char {
+    `.split-char {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -52,11 +51,11 @@ function generateCSS(p: Record<string, any>, useH: boolean, useV: boolean): stri
     }`;
 
   if (useH) {
-    css += `\
-    .split-char.h-split {
+    css += `.split-char.h-split {
       flex-direction: row;
-    }
-    .split-char.h-split .part {
+    }` + 
+    
+    `.split-char.h-split .part {
       width: 50%;
       height: 100%;
       display: flex;
@@ -67,21 +66,20 @@ function generateCSS(p: Record<string, any>, useH: boolean, useV: boolean): stri
       transform-origin: center center;
       font-weight: ${p.fontWeight};
       -webkit-text-stroke: ${p.textStroke} ${p.textStrokeColor};
-    }
-    .part-left {
+    }` +
+    `.part-left {
       transform: scaleX(${p.hLeftScaleX}) translateX(${p.hLeftOffsetX}em);
-    }
-    .part-right {
+    }` +
+    `.part-right {
       transform: scaleX(${p.hRightScaleX}) translateX(${p.hRightOffsetX}em);
     }`;
   }
 
   if (useV) {
-    css += `\
-    .split-char.v-split {
+    css += `.split-char.v-split {
       flex-direction: column;
-    }
-    .split-char.v-split .part {
+    }` +
+    `.split-char.v-split .part {
       width: 100%;
       height: 50%;
       display: flex;
@@ -92,11 +90,11 @@ function generateCSS(p: Record<string, any>, useH: boolean, useV: boolean): stri
       transform-origin: center center;
       font-weight: ${p.fontWeight};
       -webkit-text-stroke: ${p.textStroke} ${p.textStrokeColor};
-    }
-    .part-top {
+    }` +
+    `.part-top {
       transform: scaleY(${p.vTopScaleY}) translateY(${p.vTopOffsetY}em);
-    }
-    .part-bottom {
+    }` +
+    `.part-bottom {
       transform: scaleY(${p.vBottomScaleY}) translateY(${p.vBottomOffsetY}em);
     }`;
   }
@@ -115,16 +113,16 @@ function strToSplitHtml(
     .map((char) => {
       if (hSplitMap[char]) {
         const [left, right] = hSplitMap[char].split('');
-        return `<span class="split-char h-split">`+
-          `<span class="part part-left">${left}</span>`+
-          `<span class="part part-right">${right}</span>`+
+        return `<span class="split-char h-split">` +
+          `<span class="part part-left">${left}</span>` +
+          `<span class="part part-right">${right}</span>` +
         `</span>`;
       }
       if (vSplitMap[char]) {
         const [top, bottom] = vSplitMap[char].split('');
-        return `<span class="split-char v-split">`+
-          `<span class="part part-top">${top}</span>`+
-          `<span class="part part-bottom">${bottom}</span>`+
+        return `<span class="split-char v-split">` +
+          `<span class="part part-top">${top}</span>` +
+          `<span class="part part-bottom">${bottom}</span>` +
         `</span>`;
       }
       return `<span class="split-char">${char}</span>`;

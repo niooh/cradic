@@ -113,6 +113,7 @@ from('汉字').to('svg').with({
 | `boxSize` | 40 | Cell size (pt) |
 | `cols` | 6 | Columns in grid |
 | `boxGap` | 5 | Gap between cells (pt) |
+| `fontFamily` | '"Noto Sans CJK SC"' | Font family |
 | `fontSize` | 30 | Font size (pt) |
 | `hScale` | 0.65 | Horizontal scale |
 | `vScale` | 0.65 | Vertical scale |

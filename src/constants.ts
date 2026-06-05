@@ -54,6 +54,7 @@ export const TYPST_PARAMS = {
   boxSize: 40,
   cols: 6,
   boxGap: 5,
+  fontFamily: '"Noto Sans CJK SC"',
   fontSize: 30,
   hScale: 0.65,
   vScale: 0.65,

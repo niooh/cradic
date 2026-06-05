@@ -4,8 +4,6 @@ import { getSplitMap, mergeParams } from '../utils';
 export function renderTypst(text: string, params?: Record<string, any>): string {
   const p = mergeParams(TYPST_PARAMS, params);
   const { hSplitMap, vSplitMap } = getSplitMap(text, p.mode);
-
-  // 即使映射为空，convert 也输出 ()，非常精简
   const hMapStr = convertToTypstDict(hSplitMap);
   const vMapStr = convertToTypstDict(vSplitMap);
 
@@ -15,6 +13,7 @@ export function renderTypst(text: string, params?: Record<string, any>): string 
   box-size: ${p.boxSize}pt,
   cols: ${p.cols},
   box-gap: ${p.boxGap}pt,
+  font-family: ${p.fontFamily},
   font-size: ${p.fontSize}pt,
   h-scale: ${(p.hScale * 100).toFixed(0)}%,
   v-scale: ${(p.vScale * 100).toFixed(0)}%,
@@ -34,7 +33,7 @@ export function renderTypst(text: string, params?: Record<string, any>): string 
     clip: true,
     {
       set align(center + horizon)
-      set text(size: params.font-size, font: "SimSun")
+      set text(font: params.font-family, size: params.font-size)
       if char in h-split-map {
         let (left, right) = h-split-map.at(char)
         stack(dir: ltr, spacing: params.h-tightness, scale(x: params.h-scale, reflow: true, left), scale(x: params.h-scale, reflow: true, right))
@@ -58,8 +57,8 @@ export function renderTypst(text: string, params?: Record<string, any>): string 
 
 /**
  * JSON -> Typst Dict
- * 输入: { "测":"氵则", "试":"讠式" }
- * 输出: ("测": ("氵", "则"), "试": ("讠", "式"))
+ * example:
+ * { "测":"氵则", "试":"讠式" } -> ("测": ("氵", "则"), "试": ("讠", "式"))
  */
 function convertToTypstDict(jsonDict: Record<string, string>): string {
   const entries = Object.entries(jsonDict).map(([key, value]) => {
