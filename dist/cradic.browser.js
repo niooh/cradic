@@ -50,6 +50,7 @@ var e = Object.defineProperty, t = (e, t) => () => (e && (t = e(e = 0)), t), n =
 	boxSize: 40,
 	cols: 6,
 	boxGap: 5,
+	fontFamily: "\"Noto Sans CJK SC\"",
 	fontSize: 30,
 	hScale: .65,
 	vScale: .65,
@@ -66,6 +67,7 @@ var e = Object.defineProperty, t = (e, t) => () => (e && (t = e(e = 0)), t), n =
 	"text",
 	"png",
 	"jpg",
+	"avif",
 	"pdf"
 ], l = {
 	txt: "text",
@@ -17183,19 +17185,14 @@ function v(e, t) {
 </html>`;
 }
 function y(e, t, n) {
-	let r = e.showBoxBorder ? `border: 1px solid ${e.boxBorderColor};` : "border: none;", i = `\
-    body {
+	let r = e.showBoxBorder ? `border: 1px solid ${e.boxBorderColor};` : "border: none;", i = `body {
       font-family: ${e.fontFamily};
       font-size: 32px;
       padding: 40px;
       line-height: 1.8;
-    }
-
-    #box {
+    }#box {
       letter-spacing: 0;
-    }
-
-    .split-char {
+    }.split-char {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -17207,11 +17204,9 @@ function y(e, t, n) {
       ${r}
       overflow: hidden;
     }`;
-	return t && (i += `\
-    .split-char.h-split {
+	return t && (i += `.split-char.h-split {
       flex-direction: row;
-    }
-    .split-char.h-split .part {
+    }.split-char.h-split .part {
       width: 50%;
       height: 100%;
       display: flex;
@@ -17222,17 +17217,13 @@ function y(e, t, n) {
       transform-origin: center center;
       font-weight: ${e.fontWeight};
       -webkit-text-stroke: ${e.textStroke} ${e.textStrokeColor};
-    }
-    .part-left {
+    }.part-left {
       transform: scaleX(${e.hLeftScaleX}) translateX(${e.hLeftOffsetX}em);
-    }
-    .part-right {
+    }.part-right {
       transform: scaleX(${e.hRightScaleX}) translateX(${e.hRightOffsetX}em);
-    }`), n && (i += `\
-    .split-char.v-split {
+    }`), n && (i += `.split-char.v-split {
       flex-direction: column;
-    }
-    .split-char.v-split .part {
+    }.split-char.v-split .part {
       width: 100%;
       height: 50%;
       display: flex;
@@ -17243,11 +17234,9 @@ function y(e, t, n) {
       transform-origin: center center;
       font-weight: ${e.fontWeight};
       -webkit-text-stroke: ${e.textStroke} ${e.textStrokeColor};
-    }
-    .part-top {
+    }.part-top {
       transform: scaleY(${e.vTopScaleY}) translateY(${e.vTopOffsetY}em);
-    }
-    .part-bottom {
+    }.part-bottom {
       transform: scaleY(${e.vBottomScaleY}) translateY(${e.vBottomOffsetY}em);
     }`), i;
 }
@@ -17326,6 +17315,7 @@ function w(e, t) {
   box-size: ${n.boxSize}pt,
   cols: ${n.cols},
   box-gap: ${n.boxGap}pt,
+  font-family: ${n.fontFamily},
   font-size: ${n.fontSize}pt,
   h-scale: ${(n.hScale * 100).toFixed(0)}%,
   v-scale: ${(n.vScale * 100).toFixed(0)}%,
@@ -17345,7 +17335,7 @@ function w(e, t) {
     clip: true,
     {
       set align(center + horizon)
-      set text(size: params.font-size, font: "SimSun")
+      set text(font: params.font-family, size: params.font-size)
       if char in h-split-map {
         let (left, right) = h-split-map.at(char)
         stack(dir: ltr, spacing: params.h-tightness, scale(x: params.h-scale, reflow: true, left), scale(x: params.h-scale, reflow: true, right))
@@ -17393,6 +17383,7 @@ function M(e) {
 		case "typ": return "text/plain";
 		case "png": return "image/png";
 		case "jpg": return "image/jpeg";
+		case "avif": return "image/avif";
 		case "pdf": return "application/pdf";
 		default: return "application/octet-stream";
 	}
@@ -17427,6 +17418,7 @@ var P = class {
 				break;
 			case "png":
 			case "jpg":
+			case "avif":
 			case "pdf":
 				if (!m()) throw Error(`${this.outputType} is not supported in browser`);
 				this.content = await this.generateBinary();
@@ -17454,18 +17446,6 @@ var P = class {
 			let { saveFile: n, saveBinaryFile: r } = await Promise.resolve().then(() => (j(), k));
 			N(t) ? await r(e, t) : await n(e, t);
 		} else h() && _(t, e, M(this.outputType));
-	}
-	getMimeType() {
-		switch (this.outputType) {
-			case "html": return "text/html";
-			case "svg": return "image/svg+xml";
-			case "text": return "text/plain";
-			case "typ": return "text/plain";
-			case "png": return "image/png";
-			case "jpg": return "image/jpeg";
-			case "pdf": return "application/pdf";
-			default: return "application/octet-stream";
-		}
 	}
 	async toStr() {
 		let e = await this.generate();
