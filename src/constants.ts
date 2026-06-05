@@ -70,7 +70,7 @@ export const TEXT_PARAMS = {
 
 export const DEFAULT_PARAMS = HTML_PARAMS;
 
-export const OUTPUT_TYPES = ['html', 'svg', 'typ', 'text', 'png', 'jpg', 'pdf'] as const;
+export const OUTPUT_TYPES = ['html', 'svg', 'typ', 'text', 'png', 'jpg', 'avif', 'pdf'] as const;
 export type OutputType = typeof OUTPUT_TYPES[number];
 
 export const TYPE_ALIAS = {

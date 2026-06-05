@@ -18,8 +18,9 @@
     "build:node": "rollup -c rollup.config.js",
     "build:browser": "vite build",
     "build": "npm run build:browser && npm run build:node",
-    "prepublishOnly": "rm -rf dist/tmp && npm run build",
+    "prepublishOnly": "npm run check && rm -rf dist/tmp && npm run build",
     "dev": "vite",
+    "check": "tsc --noEmit",
     "test": "vitest run",
     "demo": "node tests/demos/demo1.js && node tests/demos/demo2.js"
   },

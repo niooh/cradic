@@ -56,7 +56,7 @@ Set output format. Default is `html`.
 - `svg` – SVG grid layout
 - `typ` – Typst document
 - `text` – Plain text with radical replacements
-- `png` / `jpg` / `pdf` – Binary files (Node.js only, requires external tools)
+- `png` | `jpg` | `pdf` | `avif` – Binary files (Node.js only)
 
 ```javascript
 from('汉字').to('svg')
@@ -124,12 +124,13 @@ await from('汉字').to('html').saveAs('output.html');
 
 You can also check [tests/demos](./tests/demos/).
 
-## Binary Files Generation (Node.js only)
+## Binary Files Generation (Node.js only, optional)
 
 Requires external tools:
 
 - `rsvg-convert` for PNG/JPG
 - `typst` for PDF
+- `avifenc` for AVIF
 
 ```javascript
 await from('汉字').to('png').saveAs('output.png');
@@ -139,7 +140,7 @@ await from('汉字').to('pdf').saveAs('output.pdf');
 ## Build
 
 ```bash
-npm run build:node  # Build for nodejs
+npm run build:node     # Build for nodejs
 npm run build:browser  # Build for browser
 ```
 

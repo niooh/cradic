@@ -1,7 +1,7 @@
 import { from } from '../../dist/cradic.esm.js';
 
 const text = '一个简单的汉字结构拆解测试';
-const formats = ['png', 'jpg', 'pdf'];
+const formats = ['png', 'jpg', 'pdf', 'avif'];
 
 async function run() {
   for (const fmt of formats) {

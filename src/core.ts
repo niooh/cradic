@@ -13,6 +13,7 @@ function getMimeType(type: OutputType): string {
     case 'typ': return 'text/plain';
     case 'png': return 'image/png';
     case 'jpg': return 'image/jpeg';
+    case 'avif': return 'image/avif';
     case 'pdf': return 'application/pdf';
     default: return 'application/octet-stream';
   }
@@ -58,8 +59,7 @@ export class Cradic {
       case 'typ':
         this.content = renderTypst(this.text, this.customParams);
         break;
-      case 'png':
-      case 'jpg':
+      case 'png': case 'jpg': case 'avif':
       case 'pdf':
         if (!isNodeEnv()) {
           throw new Error(`${this.outputType} is not supported in browser`);
@@ -117,27 +117,6 @@ export class Cradic {
       const mimeType = getMimeType(this.outputType);
       // 浏览器环境中，二进制文件应该已经被处理
       downloadFile(content as string, filename, mimeType);
-    }
-  }
-
-  private getMimeType(): string {
-    switch (this.outputType) {
-      case 'html':
-        return 'text/html';
-      case 'svg':
-        return 'image/svg+xml';
-      case 'text':
-        return 'text/plain';
-      case 'typ':
-        return 'text/plain';
-      case 'png':
-        return 'image/png';
-      case 'jpg':
-        return 'image/jpeg';
-      case 'pdf':
-        return 'application/pdf';
-      default:
-        return 'application/octet-stream';
     }
   }
 

@@ -55,7 +55,7 @@ const cr = from('汉字');
 - `svg` - SVG
 - `typ` - Typst
 - `text` - 纯文本替换
-- `png` / `jpg` / `pdf` - 二进制文件（仅 Node.js，需要外部工具）
+- `png` | `jpg` | `pdf` | `avif` - 二进制文件（仅 Node.js）
 
 ```javascript
 from('汉字').to('svg')
@@ -123,12 +123,13 @@ await from('汉字').to('html').saveAs('output.html');
 
 具体用法也可查看 [tests/demos](./tests/demos/) 。
 
-## 图片生成（仅 Node.js）
+## 图片生成（仅 Node.js，可选）
 
-需要外部工具：
+依赖外部工具：
 
-- PNG/JPG 需要 `rsvg-convert`
-- PDF 需要 `typst`
+- PNG/JPG 需 `rsvg-convert`
+- PDF 需 `typst`
+- AVIF 需 `avifenc`
 
 ```javascript
 await from('汉字').to('png').saveAs('output.png');
@@ -138,7 +139,7 @@ await from('汉字').to('pdf').saveAs('output.pdf');
 ## 构建
 
 ```bash
-npm run build:node  # 为 nodejs 构建
+npm run build:node     # 为 nodejs 构建
 npm run build:browser  # 为浏览器构建
 ```
 

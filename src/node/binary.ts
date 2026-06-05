@@ -3,72 +3,144 @@ import { writeFileSync, readFileSync, unlinkSync } from 'fs';
 import { tmpdir } from 'os';
 import { join } from 'path';
 
-export async function generateBinary(
-  input: string,
-  format: 'png' | 'jpg' | 'pdf'
-): Promise<Buffer> {
-  if (format === 'pdf') {
-    return generatePdfFromTypst(input);
-  } else {
-    return generateRasterFromSvg(input, format);
+
+// 工具检测
+function isCommandAvailable(command: string): boolean {
+  try {
+    execSync(`command -v ${command}`, { stdio: 'ignore' });
+    return true;
+  } catch {
+    return false;
   }
 }
 
-/**
- * svg 字符串 -> rsvg-convert -> PNG/JPG Buffer
- */
-function generateRasterFromSvg(svg: string, format: 'png' | 'jpg'): Buffer {
-  const tmpSvgFile = join(tmpdir(), `cradic-${Date.now()}.svg`);
-  const tmpOutputFile = tmpSvgFile.replace(/\.svg$/, `.${format}`);
-  
-  writeFileSync(tmpSvgFile, svg);
-  
+// SVG -> PNG/JPG
+function convertWithRsvg(svgFile: string, outputFile: string): void {
+  const isJpg = outputFile.endsWith('.jpg');
+  const bgFlag = isJpg ? '-b white ' : '';
+  execSync(`rsvg-convert ${bgFlag}"${svgFile}" -o "${outputFile}"`, {
+    stdio: 'pipe', encoding: 'buffer',
+  });
+}
+
+function convertWithMagick(svgFile: string, outputFile: string): void {
+  const cmd = isCommandAvailable('magick') ? 'magick' : 'convert';
+  execSync(`${cmd} "${svgFile}" "${outputFile}"`, { stdio: 'pipe' });
+}
+
+function convertWithCairo(svgFile: string, outputFile: string): void {
+  const fmt = outputFile.endsWith('.jpg') ? 'jpg' : 'png';
+  execSync(`cairosvg "${svgFile}" -o "${outputFile}" -f ${fmt}`, { stdio: 'pipe' });
+}
+
+function renderSvgToRaster(svg: string, format: 'png' | 'jpg'): Buffer {
+  const tmpSvg = join(tmpdir(), `cradic-${Date.now()}.svg`);
+  const tmpOut = tmpSvg.replace(/\.svg$/, `.${format}`);
+  writeFileSync(tmpSvg, svg);
+
+  const converters = [
+    { name: 'rsvg-convert', fn: () => convertWithRsvg(tmpSvg, tmpOut) },
+    { name: 'ImageMagick', fn: () => convertWithMagick(tmpSvg, tmpOut) },
+    { name: 'cairosvg', fn: () => convertWithCairo(tmpSvg, tmpOut) },
+  ];
+
+  let lastError: Error | null = null;
+  for (const c of converters) {
+    try {
+      c.fn();
+      return readFileSync(tmpOut);
+    } catch (e) {
+      lastError = e as Error;
+      continue;
+    } finally {
+      try { unlinkSync(tmpSvg); } catch {}
+      try { unlinkSync(tmpOut); } catch {}
+    }
+  }
+
+  throw new Error(
+    `Failed to generate ${format.toUpperCase()} from SVG.\n` +
+    `Attempted: rsvg-convert, ImageMagick, cairosvg.\n` +
+    `Install one: brew install librsvg / imagemagick / pip install cairosvg\n` +
+    `Last error: ${lastError?.message}`
+  );
+}
+
+function convertJpgToAvif(jpgBuffer: Buffer): Buffer {
+  const tmpJpg = join(tmpdir(), `cradic-${Date.now()}.jpg`);
+  const tmpAvif = tmpJpg.replace(/\.jpg$/, '.avif');
+  writeFileSync(tmpJpg, jpgBuffer);
+
   try {
-    execSync(`rsvg-convert "${tmpSvgFile}" -o "${tmpOutputFile}"`, {
-      stdio: 'pipe',
-      encoding: 'buffer',
-    });
-    
-    // 读取生成的文件
-    return readFileSync(tmpOutputFile);
+    // 优先使用 avifenc
+    if (isCommandAvailable('avifenc')) {
+      execSync(`avifenc --speed 0 "${tmpJpg}" "${tmpAvif}"`, { stdio: 'pipe' });
+      return readFileSync(tmpAvif);
+    }
+
+    // 降级到 ImageMagick
+    if (isCommandAvailable('magick') || isCommandAvailable('convert')) {
+      const cmd = isCommandAvailable('magick') ? 'magick' : 'convert';
+      execSync(`${cmd} "${tmpJpg}" "${tmpAvif}"`, { stdio: 'pipe' });
+      return readFileSync(tmpAvif);
+    }
+
+    throw new Error(
+      'Failed to generate AVIF.\n' +
+      'Install avifenc or ImageMagick.'
+    );
   } catch (error) {
     throw new Error(
-      `Failed to generate ${format.toUpperCase()} from SVG. ` +
-      `Make sure rsvg-convert is installed.\n` +
-      `Install: brew install librsvg (macOS) or apt install librsvg2-bin (Linux)\n` +
+      `Failed to convert JPG to AVIF.\n` +
       `Details: ${(error as Error).message}`
     );
   } finally {
-    try { unlinkSync(tmpSvgFile); } catch {}
-    try { unlinkSync(tmpOutputFile); } catch {}
+    try { unlinkSync(tmpJpg); } catch {}
+    try { unlinkSync(tmpAvif); } catch {}
   }
 }
 
-/**
- * typ 字符串 -> typst compile -> PDF Buffer
- */
+// Typst -> PDF
 function generatePdfFromTypst(typstCode: string): Buffer {
-  const tmpTypstFile = join(tmpdir(), `cradic-${Date.now()}.typ`);
-  const tmpPdfFile = tmpTypstFile.replace(/\.typ$/, '.pdf');
-  
-  writeFileSync(tmpTypstFile, typstCode, 'utf-8');
-  
+  const tmpTypst = join(tmpdir(), `cradic-${Date.now()}.typ`);
+  const tmpPdf = tmpTypst.replace(/\.typ$/, '.pdf');
+  writeFileSync(tmpTypst, typstCode, 'utf-8');
+
   try {
-    execSync(`typst compile "${tmpTypstFile}" "${tmpPdfFile}"`, {
-      encoding: 'utf-8',
-      stdio: 'pipe',
-    });
-    
-    // 读取生成的 PDF 文件
-    return readFileSync(tmpPdfFile);
+    execSync(`typst compile "${tmpTypst}" "${tmpPdf}"`, { stdio: 'pipe' });
+    return readFileSync(tmpPdf);
   } catch (error) {
     throw new Error(
-      `Failed to generate PDF from Typst code. ` +
+      `Failed to generate PDF from Typst code.\n` +
       `Make sure typst is installed.\n` +
       `Details: ${(error as Error).message}`
     );
   } finally {
-    try { unlinkSync(tmpTypstFile); } catch {}
-    try { unlinkSync(tmpPdfFile); } catch {}
+    try { unlinkSync(tmpTypst); } catch {}
+    try { unlinkSync(tmpPdf); } catch {}
+  }
+}
+
+/**
+ * 统一导出入口
+ */
+export async function generateBinary(
+  input: string,
+  format: 'png' | 'jpg' | 'avif' | 'pdf'
+): Promise<Buffer> {
+  switch (format) {
+    case 'pdf':
+      return generatePdfFromTypst(input);
+
+    case 'avif': {
+      const jpg = renderSvgToRaster(input, 'jpg');
+      return convertJpgToAvif(jpg);
+    }
+
+    case 'png': case 'jpg':
+      return renderSvgToRaster(input, format);
+
+    default:
+      throw new Error(`Unsupported format: ${format}`);
   }
 }
