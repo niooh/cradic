@@ -32,7 +32,7 @@ from('一个简单的汉字结构拆解测试').to('text').log();
 // -> '一人丨⺮间单白勺氵又宀子纟吉木勾扌斥解氵则讠式'
 ```
 
-你也可以直接访问 [在线演示](https://ldlsn1.github.io/repo/tests/demos/demo.html) 。
+你也可以直接访问 [在线演示](https://niooh.github.io/repo/tests/demos/demo.html) 。
 
 ![HTML渲染示例](../figures/html_render_example.avif)
 

@@ -10,6 +10,8 @@ A library that deconstructs Chinese characters into radicals and reassembles the
 
 ## Installation
 
+You need Node.js ≥ 22.18.0 installed.
+
 ```bash
 npm install cradic
 ```
@@ -33,7 +35,7 @@ from('一个简单的汉字结构拆解测试').to('text').log();
 // -> '一人丨⺮间单白勺氵又宀子纟吉木勾扌斥解氵则讠式'
 ```
 
-You can also directly try the [Live Demo](https://ldlsn1.github.io/cradic/tests/demos/demo.html) .
+You can also directly try the [Live Demo](https://niooh.github.io/cradic/tests/demos/demo.html) .
 
 ![HTML render example](docs/figures/html_render_example.avif)
 
