@@ -3,7 +3,7 @@
   Before submitting, please:
   - Fork and branch from `master`
   - Add tests if needed
-  - Run `npm run build` and `npm run test`
+  - Run `npm run build`, `npm run test`, `npm run demo` to ensure they run properly
 -->
 
 ## Summary

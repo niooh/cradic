@@ -146,6 +146,28 @@ npm run build:node     # Build for nodejs
 npm run build:browser  # Build for browser
 ```
 
+## Contribute
+
+If you'd like to contribute to the codebase, please follow these steps:
+
+1. Fork the repository and create your feature branch:
+   ```bash
+   git checkout -b new-feature
+   ```
+
+2. Commit your changes with a clear message (e.g., using [Conventional Commits](https://www.conventionalcommits.org/)):
+   ```bash
+   git commit -m "feat: add some feature"
+   ```
+
+3. Push to your branch:
+   ```bash
+   git push origin new-feature
+   ```
+
+4. Open a Pull Request. Make sure to review the pull request template at `.github/PULL_REQUEST_TEMPLATE.md` before submitting.
+
+
 ## License
 
 The source code of this project is released under the **MIT** License.  

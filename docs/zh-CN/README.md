@@ -143,6 +143,28 @@ npm run build:node     # 为 nodejs 构建
 npm run build:browser  # 为浏览器构建
 ```
 
+## 贡献指南
+
+如果你想为代码库做出贡献，请遵循以下步骤：
+
+1. Fork 仓库并创建你的特性分支：
+   ```bash
+   git checkout -b new-feature
+   ```
+
+2. 提交你的更改，使用清晰的提交信息（例如，遵循[约定式提交](https://www.conventionalcommits.org/)规范）：
+   ```bash
+   git commit -m "feat: add some feature"
+   ```
+
+3. 推送到你的分支：
+   ```bash
+   git push origin new-feature
+   ```
+
+4. 创建一个新的 Pull Request。请在提交前查看位于 `../../.github/PULL_REQUEST_TEMPLATE.md` 的拉取请求模板。
+
+
 ## 许可证
 
 本项目源代码采用 **MIT** 协议开源。
