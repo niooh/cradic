@@ -1,6 +1,6 @@
 {
   "name": "cradic",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "description": "Deconstruct Chinese characters into radicals and reassemble them for intriguing visual effects",
   "repository": {

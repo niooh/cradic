@@ -151,7 +151,7 @@ npm run build:browser  # 为浏览器构建
 1. Fork 仓库并创建你的分支：
    ```bash
    git checkout -b new-feature
-   npm install
+   npm install && chmod +x .githooks/*
    ```
 
 2. 提交你的更改，使用清晰的提交信息，遵循[约定式提交](https://www.conventionalcommits.org/)规范：

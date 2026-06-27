@@ -1,5 +1,5 @@
-import { OutputType, DEFAULT_PARAMS, TYPE_ALIAS, OutputTypeAlias } from './constants';
-import { isNodeEnv, isBrowserEnv, downloadFile } from './utils';
+import { OutputType, TYPE_ALIAS, OutputTypeAlias } from './constants';
+import { isNodeEnv, downloadFile } from './utils';
 import { renderHtml } from './render/html';
 import { renderSvg } from './render/svg';
 import { renderText } from './render/text';
@@ -61,9 +61,6 @@ export class Cradic {
         break;
       case 'png': case 'jpg': case 'avif':
       case 'pdf':
-        if (!isNodeEnv()) {
-          throw new Error(`${this.outputType} is not supported in browser`);
-        }
         this.content = await this.generateBinary();
         break;
       default:
@@ -113,7 +110,7 @@ export class Cradic {
       } else {
         await saveFile(filename, content as string);
       }
-    } else if (isBrowserEnv()) {
+    } else {
       const mimeType = getMimeType(this.outputType);
       // 浏览器环境中，二进制文件应该已经被处理
       downloadFile(content as string, filename, mimeType);

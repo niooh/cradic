@@ -154,7 +154,7 @@ If you'd like to contribute to the codebase, please follow these steps:
 1. Fork the repository and create your feature branch:
    ```bash
    git checkout -b new-feature
-   npm install
+   npm install && chmod +x .githooks/*
    ```
 
 2. Commit your changes with a clear message (e.g., using [Conventional Commits](https://www.conventionalcommits.org/)):

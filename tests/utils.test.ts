@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getSplitMap, isNodeEnv, isBrowserEnv, mergeParams } from '../src/utils';
+import { getSplitMap, isNodeEnv, mergeParams } from '../src/utils';
 
 describe('utils', () => {
   describe('getSplitMap', () => {
@@ -34,12 +34,6 @@ describe('utils', () => {
   describe('isNodeEnv', () => {
     it('returns true in node environment', () => {
       expect(isNodeEnv()).toBe(true);
-    });
-  });
-
-  describe('isBrowserEnv', () => {
-    it('returns false in node environment', () => {
-      expect(isBrowserEnv()).toBe(false);
     });
   });
 

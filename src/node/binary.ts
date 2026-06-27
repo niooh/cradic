@@ -39,24 +39,30 @@ function renderSvgToRaster(svg: string, format: 'png' | 'jpg'): Buffer {
   writeFileSync(tmpSvg, svg);
 
   const converters = [
-    { name: 'rsvg-convert', fn: () => convertWithRsvg(tmpSvg, tmpOut) },
-    { name: 'ImageMagick', fn: () => convertWithMagick(tmpSvg, tmpOut) },
-    { name: 'cairosvg', fn: () => convertWithCairo(tmpSvg, tmpOut) },
+    () => convertWithRsvg(tmpSvg, tmpOut),
+    () => convertWithMagick(tmpSvg, tmpOut),
+    () => convertWithCairo(tmpSvg, tmpOut),
   ];
 
   let lastError: Error | null = null;
+
   for (const c of converters) {
     try {
-      c.fn();
-      return readFileSync(tmpOut);
+      c();
+      const result = readFileSync(tmpOut);
+      // 成功后清理
+      try { unlinkSync(tmpSvg); } catch {}
+      try { unlinkSync(tmpOut); } catch {}
+      return result;
     } catch (e) {
       lastError = e as Error;
-      continue;
-    } finally {
-      try { unlinkSync(tmpSvg); } catch {}
+      // 尝试下一个转换器前，删除可能产生的中间文件（tmpOut），但不删 tmpSvg
       try { unlinkSync(tmpOut); } catch {}
     }
   }
+
+  // 全部失败，最后清理 tmpSvg
+  try { unlinkSync(tmpSvg); } catch {}
 
   throw new Error(
     `Failed to generate ${format.toUpperCase()} from SVG.\n` +

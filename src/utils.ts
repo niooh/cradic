@@ -39,10 +39,6 @@ export function isNodeEnv(): boolean {
   return typeof window === 'undefined';
 }
 
-export function isBrowserEnv(): boolean {
-  return typeof window !== 'undefined';
-}
-
 export function mergeParams(defaults: Record<string, any>, custom?: Record<string, any>) {
   if (!custom) return defaults;
   return { ...defaults, ...custom };
