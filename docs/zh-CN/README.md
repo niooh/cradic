@@ -11,6 +11,7 @@
 ## 安装
 ```bash
 npm install cradic
+# 或：pnpm add cradic
 ```
 
 ## 特性
@@ -147,12 +148,13 @@ npm run build:browser  # 为浏览器构建
 
 如果你想为代码库做出贡献，请遵循以下步骤：
 
-1. Fork 仓库并创建你的特性分支：
+1. Fork 仓库并创建你的分支：
    ```bash
    git checkout -b new-feature
+   npm install
    ```
 
-2. 提交你的更改，使用清晰的提交信息（例如，遵循[约定式提交](https://www.conventionalcommits.org/)规范）：
+2. 提交你的更改，使用清晰的提交信息，遵循[约定式提交](https://www.conventionalcommits.org/)规范：
    ```bash
    git commit -m "feat: add some feature"
    ```
