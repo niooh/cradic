@@ -1,5 +1,12 @@
 //#region \0rolldown/runtime.js
-var e = Object.defineProperty, t = (e, t) => () => (e && (t = e(e = 0)), t), n = (t, n) => {
+var e = Object.defineProperty, t = (e, t, n) => () => {
+	if (n) throw n[0];
+	try {
+		return e && (t = e(e = 0)), t;
+	} catch (e) {
+		throw n = [e], e;
+	}
+}, n = (t, n) => {
 	let r = {};
 	for (var i in t) e(r, i, {
 		get: t[i],
@@ -17154,37 +17161,34 @@ function p(e, t) {
 function m() {
 	return typeof window > "u";
 }
-function h() {
-	return typeof window < "u";
-}
-function g(e, t) {
+function h(e, t) {
 	return t ? {
 		...e,
 		...t
 	} : e;
 }
-function _(e, t, n) {
+function g(e, t, n) {
 	let r = new Blob([e], { type: n }), i = URL.createObjectURL(r), a = document.createElement("a");
 	a.href = i, a.download = t, a.click(), URL.revokeObjectURL(i);
 }
 //#endregion
 //#region src/render/html.ts
-function v(e, t) {
-	let n = g(r, t), { hSplitMap: i, vSplitMap: a, useH: o, useV: s } = p(e, n.mode);
+function _(e, t) {
+	let n = h(r, t), { hSplitMap: i, vSplitMap: a, useH: o, useV: s } = p(e, n.mode);
 	return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>汉字拆分</title>
-  <style>${y(n, o, s)}</style>
+  <style>${v(n, o, s)}</style>
 </head>
 <body>
-  <div id="box">${b(e, i, a, n)}</div>
+  <div id="box">${y(e, i, a, n)}</div>
 </body>
 </html>`;
 }
-function y(e, t, n) {
+function v(e, t, n) {
 	let r = e.showBoxBorder ? `border: 1px solid ${e.boxBorderColor};` : "border: none;", i = `body {
       font-family: ${e.fontFamily};
       font-size: 32px;
@@ -17240,7 +17244,7 @@ function y(e, t, n) {
       transform: scaleY(${e.vBottomScaleY}) translateY(${e.vBottomOffsetY}em);
     }`), i;
 }
-function b(e, t, n, r) {
+function y(e, t, n, r) {
 	return e.split("").map((e) => {
 		if (t[e]) {
 			let [n, r] = t[e].split("");
@@ -17255,16 +17259,16 @@ function b(e, t, n, r) {
 }
 //#endregion
 //#region src/render/svg.ts
-function x(e, t) {
-	let n = g(i, t), { hSplitMap: r, vSplitMap: a } = p(e, n.mode), o = e.split(""), s = [];
+function b(e, t) {
+	let n = h(i, t), { hSplitMap: r, vSplitMap: a } = p(e, n.mode), o = e.split(""), s = [];
 	o.forEach((e, t) => {
 		let i = t % n.cols, o = Math.floor(t / n.cols), c = i * (n.boxWidth + n.boxGapH), l = o * (n.boxHeight + n.boxGapV);
-		s.push(S(e, c, l, r, a, n));
+		s.push(x(e, c, l, r, a, n));
 	});
 	let c = Math.ceil(o.length / n.cols);
 	return `<svg xmlns="http://www.w3.org/2000/svg" width="${n.cols * (n.boxWidth + n.boxGapH) - n.boxGapH}" height="${c * (n.boxHeight + n.boxGapV) - n.boxGapV}">${s.join("")}</svg>`;
 }
-function S(e, t, n, r, i, a) {
+function x(e, t, n, r, i, a) {
 	let o = a.boxWidth, s = a.boxHeight, c = t + o / 2, l = n + s / 2, u = a.showBoxBorder ? `<rect x="${t}" y="${n}" width="${o}" height="${s}" fill="none" stroke="${a.boxBorderColor}" stroke-width="1"/>` : "", d = a.boxHeight * a.partScale, f = `font-family="${a.fontFamily}" font-size="${d}px" text-anchor="middle" dominant-baseline="central" fill="#000"`;
 	if (!r[e] && !i[e]) return `${u}<text x="${c}" y="${l}" ${f}>${e}</text>`;
 	if (r[e]) {
@@ -17279,8 +17283,8 @@ function S(e, t, n, r, i, a) {
 }
 //#endregion
 //#region src/render/text.ts
-function C(e, t) {
-	let n = g(o, t), { hSplitMap: r, vSplitMap: i } = p(e, n.mode), { sep: a } = n;
+function S(e, t) {
+	let n = h(o, t), { hSplitMap: r, vSplitMap: i } = p(e, n.mode), { sep: a } = n;
 	if (a === "auto") {
 		let t = e.split("").map((e) => {
 			if (i[e]) {
@@ -17307,8 +17311,8 @@ function C(e, t) {
 }
 //#endregion
 //#region src/render/typst.ts
-function w(e, t) {
-	let n = g(a, t), { hSplitMap: r, vSplitMap: i } = p(e, n.mode), o = T(r), s = T(i);
+function C(e, t) {
+	let n = h(a, t), { hSplitMap: r, vSplitMap: i } = p(e, n.mode), o = w(r), s = w(i);
 	return `#set page(width: auto, height: auto, margin: 1cm)
 
 #let params = (
@@ -17356,7 +17360,7 @@ function w(e, t) {
   ..("${e}".clusters().map(char => char-cell(char)))
 )`;
 }
-function T(e) {
+function w(e) {
 	return `(${Object.entries(e).map(([e, t]) => {
 		let [n, r] = t.split("");
 		return `"${e}": ("${n}", "${r}")`;
@@ -17364,18 +17368,18 @@ function T(e) {
 }
 //#endregion
 //#region src/node/binary.stub.ts
-var E = /* @__PURE__ */ n({ generateBinary: () => D });
-async function D(e, t) {
+var T = /* @__PURE__ */ n({ generateBinary: () => E });
+async function E(e, t) {
 	throw Error("Binary generation is not supported in browser environment");
 }
-var O = t((() => {})), k = /* @__PURE__ */ n({ saveFile: () => A });
-async function A(e, t) {
+var D = t((() => {})), O = /* @__PURE__ */ n({ saveFile: () => k });
+async function k(e, t) {
 	throw Error("File saving is not supported in browser environment");
 }
-var j = t((() => {}));
+var A = t((() => {}));
 //#endregion
 //#region src/core.ts
-function M(e) {
+function j(e) {
 	switch (e) {
 		case "html": return "text/html";
 		case "svg": return "image/svg+xml";
@@ -17388,10 +17392,10 @@ function M(e) {
 		default: return "application/octet-stream";
 	}
 }
-function N(e) {
+function M(e) {
 	return m() && e && typeof e == "object" && e.constructor && e.constructor.isBuffer?.(e);
 }
-var P = class {
+var N = class {
 	constructor(e) {
 		this.outputType = "html", this.content = "", this.text = e;
 	}
@@ -17405,22 +17409,21 @@ var P = class {
 		if (this.content) return this.content;
 		switch (this.outputType) {
 			case "html":
-				this.content = v(this.text, this.customParams);
+				this.content = _(this.text, this.customParams);
 				break;
 			case "svg":
-				this.content = x(this.text, this.customParams);
+				this.content = b(this.text, this.customParams);
 				break;
 			case "text":
-				this.content = C(this.text, this.customParams);
+				this.content = S(this.text, this.customParams);
 				break;
 			case "typ":
-				this.content = w(this.text, this.customParams);
+				this.content = C(this.text, this.customParams);
 				break;
 			case "png":
 			case "jpg":
 			case "avif":
 			case "pdf":
-				if (!m()) throw Error(`${this.outputType} is not supported in browser`);
 				this.content = await this.generateBinary();
 				break;
 			default: throw Error(`Unknown output type: ${this.outputType}`);
@@ -17429,12 +17432,12 @@ var P = class {
 	}
 	async generateBinary() {
 		if (!m()) throw Error("Binary generation only works in Node.js");
-		let { generateBinary: e } = await Promise.resolve().then(() => (O(), E));
-		return e(this.outputType === "pdf" ? w(this.text, this.customParams) : x(this.text, this.customParams), this.outputType);
+		let { generateBinary: e } = await Promise.resolve().then(() => (D(), T));
+		return e(this.outputType === "pdf" ? C(this.text, this.customParams) : b(this.text, this.customParams), this.outputType);
 	}
 	log() {
 		return this.generate().then((e) => {
-			if (N(e)) {
+			if (M(e)) {
 				let t = e;
 				console.log(`[${this.outputType.toUpperCase()}] Generated binary data (${t.length} bytes)`);
 			} else console.log(e);
@@ -17443,18 +17446,18 @@ var P = class {
 	async saveAs(e) {
 		let t = await this.generate();
 		if (m()) {
-			let { saveFile: n, saveBinaryFile: r } = await Promise.resolve().then(() => (j(), k));
-			N(t) ? await r(e, t) : await n(e, t);
-		} else h() && _(t, e, M(this.outputType));
+			let { saveFile: n, saveBinaryFile: r } = await Promise.resolve().then(() => (A(), O));
+			M(t) ? await r(e, t) : await n(e, t);
+		} else g(t, e, j(this.outputType));
 	}
 	async toStr() {
 		let e = await this.generate();
-		if (N(e)) throw Error(`Cannot convert binary data (${this.outputType}) to string. Use saveAs() to save to file instead.`);
+		if (M(e)) throw Error(`Cannot convert binary data (${this.outputType}) to string. Use saveAs() to save to file instead.`);
 		return e;
 	}
 };
-function F(e) {
-	return new P(e);
+function P(e) {
+	return new N(e);
 }
 //#endregion
-export { P as Cradic, s as DEFAULT_PARAMS, c as OUTPUT_TYPES, F as from };
+export { N as Cradic, s as DEFAULT_PARAMS, c as OUTPUT_TYPES, P as from };
